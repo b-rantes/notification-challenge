@@ -7,3 +7,4 @@
 /.vs
 /src/WebApi/obj
 /tests/UnitTests/obj
+/src/WebApi/bin/Debug/net6.0
