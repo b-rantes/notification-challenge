@@ -11,20 +11,19 @@ namespace WebApi.Controllers
     {
         private readonly ILogger<TestController> _logger;
         private readonly IMongoClient _mongo;
-        public TestController(ILogger<TestController> logger, IMongoClient client)
+        public TestController(ILogger<TestController> logger)
         {
-            _mongo = client;
             _logger = logger;
         }
 
         [HttpGet("test")]
         public async Task<IActionResult> Get()
         {
-            var queryResult = _mongo.GetDatabase("MDB_MELI_NOTIFICATION").GetCollection<BsonDocument>("test").Find(_ => true);
+/*            var queryResult = _mongo.GetDatabase("MDB_MELI_NOTIFICATION").GetCollection<BsonDocument>("test").Find(_ => true);
 
             var result = queryResult.FirstOrDefault().ToJson();
-
-            return Ok(result);
+*/
+            return Ok("OK!");
         }
     }
 }
