@@ -5,3 +5,5 @@
 /.vs/meli-notification-challenge/FileContentIndex
 /.vs/meli-notification-challenge/v17
 /.vs
+/src/WebApi/obj
+/tests/UnitTests/obj
