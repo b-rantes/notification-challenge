@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
+using Prometheus;
 using System.Net;
 using System.Net.Sockets;
 using WebApi.DependencyInjection;
@@ -17,13 +18,28 @@ ConfigureServices(builder.Services, builder.Configuration);
 
 var app = builder.Build();
 
+var counter = Metrics.CreateCounter("notificationsystemwebapi", "Count requests to the NotificationSystem API endpoints",
+    new CounterConfiguration
+    {
+        LabelNames = new[] { "method", "endpoint" }
+    });
+
 // Configure the HTTP request pipeline.
 app.UseForwardedHeaders();
+
+app.Use((context, next) =>
+{
+    counter.WithLabels(context.Request.Method, context.Request.Path).Inc();
+    return next();
+});
 
 app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseRouting();
+
+app.UseMetricServer();
+app.UseHttpMetrics();
 
 app.UseHttpsRedirection();
 
@@ -34,6 +50,7 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllers();
     endpoints.MapGet("/", async context =>
     {
+
         context.Response.ContentType = "text/plain";
 
         // Host info
