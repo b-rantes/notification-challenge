@@ -24,3 +24,23 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: admin
     ports:
       - "27017:27017"
+
+#Descomentar para visualização de Grafana + Prometheus com métricas da aplicação.
+
+#  prometheus:
+#    build:
+#      context: monitoring-metrics/prometheus
+#    restart: always
+#    ports:
+#      - '9090:9090'
+#    volumes:
+#      - './prometheus/data:/data'
+#    image: prometheus-image
+
+#  grafana:
+#    build:
+#      context: monitoring-metrics/grafana
+#    image: grafana-local
+#    restart: always
+#    ports:
+#      - '3000:3000'
