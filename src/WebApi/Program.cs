@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
 using System.Net;
 using System.Net.Sockets;
+using WebApi.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,11 +20,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 app.UseForwardedHeaders();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseRouting();
 
@@ -74,5 +72,5 @@ void ConfigureServices(IServiceCollection services, IConfiguration configuration
         options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
     });
 
-    //services.AddMongoDb(configuration);
+    services.AddMongoDb(configuration);
 }
