@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
 using System.Net;
 using System.Net.Sockets;
-using WebApi.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
