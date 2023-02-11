@@ -54,3 +54,5 @@
 /src/Domain/bin/Debug/net6.0
 /src/Infrastructure/bin/Debug/net6.0
 /tests/UnitTests/bin/Debug/net6.0
+/tests/IntegratedTests/bin/Debug/net6.0
+/tests/IntegratedTests/obj
