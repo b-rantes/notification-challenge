@@ -1,7 +1,6 @@
 ﻿namespace Domain.Entities.Abstractions
 {
-    public interface IAggregateRoot
+    public interface IAggregateRoot : IEntity
     {
-        public long Id { get; set; }
     }
 }
