@@ -1,3 +1,5 @@
+using Application.DependencyInjection;
+using Infrastructure.DependencyInjection;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
 using Prometheus;
@@ -7,10 +9,8 @@ using WebApi.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -81,7 +81,6 @@ app.UseEndpoints(endpoints =>
 
 app.Run();
 
-
 void ConfigureServices(IServiceCollection services, IConfiguration configuration)
 {
     services.Configure<ForwardedHeadersOptions>(options =>
@@ -89,5 +88,8 @@ void ConfigureServices(IServiceCollection services, IConfiguration configuration
         options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
     });
 
-    services.AddMongoDb(configuration);
+    //services.AddMongoDb(configuration);
+    services
+        .AddUseCases(configuration)
+        .AddInfrastructure(configuration);
 }

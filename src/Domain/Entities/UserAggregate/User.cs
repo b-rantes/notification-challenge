@@ -12,6 +12,7 @@ namespace Domain.Entities.UserAggregate
 
         public long Id { get; internal set; } = -1;
         public bool IsNotificationOn => UserNotificationSettings.IsNotificationOn;
+        public bool IsNotificationOff => !IsNotificationOn;
         public DateTime LastOpenedNotificationDate => UserNotificationDeliveryControl.LastOpenedNotificationDate;
 
         public void TurnOnNotifications() => SetUserNotificationSettings(new(isNotificationOn: true));
