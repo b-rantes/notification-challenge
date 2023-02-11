@@ -1,6 +1,6 @@
 ﻿using Bogus;
 using Domain.Builders;
-using Domain.Entities.UserAggregate;
+using Domain.DomainModels.Entities.UserAggregate;
 using FluentAssertions;
 
 namespace UnitTests.Domain.Entities
@@ -24,7 +24,7 @@ namespace UnitTests.Domain.Entities
             user.TurnOnNotifications();
 
             //Assert
-            user.IsNotificationOn.Should().BeTrue();
+            user.CanReceiveNotification.Should().BeTrue();
         }
 
         [Fact(DisplayName = "User entity TurnOffNotification method should turn notifications off")]
@@ -37,7 +37,7 @@ namespace UnitTests.Domain.Entities
             user.TurnOffNotifications();
 
             //Assert
-            user.IsNotificationOn.Should().BeFalse();
+            user.CanReceiveNotification.Should().BeFalse();
         }
 
         [Fact(DisplayName = "User entity should update LastOpenedNotificationDate when notification is open")]
@@ -51,7 +51,7 @@ namespace UnitTests.Domain.Entities
             user.OpenNotification();
 
             //Assert
-            user.LastOpenedNotificationDate.Should().BeAfter(lastOpenedNotificationDate);
+            user.LastOpenedNotificationDate.Should().BeAfter(lastOpenedNotificationDate!.Value);
         }
 
         private User GenerateValidUser(bool isNotificationOn) =>

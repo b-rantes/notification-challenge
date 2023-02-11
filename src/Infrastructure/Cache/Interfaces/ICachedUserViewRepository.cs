@@ -1,4 +1,4 @@
-﻿using Domain.Repositories.UserAggregateRepository;
+﻿using Domain.Repositories.UserRepository;
 
 namespace Infrastructure.Cache.Interfaces
 {

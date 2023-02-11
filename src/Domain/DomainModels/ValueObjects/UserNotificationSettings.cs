@@ -1,17 +1,17 @@
-﻿namespace Domain.ValueObjects
+﻿namespace Domain.DomainModels.ValueObjects
 {
     internal struct UserNotificationSettings
     {
         public UserNotificationSettings()
         {
-            IsNotificationOn = true;
+            CanReceiveNotification = true;
         }
 
         public UserNotificationSettings(bool isNotificationOn) : this()
         {
-            IsNotificationOn = isNotificationOn;
+            CanReceiveNotification = isNotificationOn;
         }
 
-        public bool IsNotificationOn { get; private set; }
+        public bool CanReceiveNotification { get; private set; }
     }
 }

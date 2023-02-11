@@ -1,22 +1,6 @@
 version: '3.4'
 
 services:
-  notificationsystem:
-    build: 
-      context: src/WebApi
-    restart: always
-    depends_on:
-      - mongodb
-    environment:
-      - ASPNETCORE_URLS=http://+:8000
- 
-  proxy:
-    build: nginx
-    ports:
-      - 80:80
-    depends_on: 
-      - notificationsystem
-
   mongodb:
     image: mongo
     environment:
@@ -25,3 +9,8 @@ services:
     ports:
       - "27017:27017"
 
+  redis_image:
+    image: redis
+    container_name: cache
+    ports:
+      - "6379:6379"

@@ -1,5 +1,5 @@
-﻿using Domain.Entities.UserAggregate;
-using Domain.ValueObjects;
+﻿using Domain.DomainModels.Entities.UserAggregate;
+using Domain.DomainModels.ValueObjects;
 
 namespace Domain.Builders
 {
@@ -18,7 +18,7 @@ namespace Domain.Builders
             return user;
         }
 
-        public static User WithNotificationDeliveryControl(this User user, DateTime lastOpenedNotificationDate)
+        public static User WithNotificationDeliveryControl(this User user, DateTime? lastOpenedNotificationDate)
         {
             user.SetUserNotificationDeliveryControl(new UserNotificationDeliveryControl(lastOpenedNotificationDate));
             return user;

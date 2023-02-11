@@ -53,7 +53,7 @@ namespace UnitTests.Domain.Builders
                 .CreateUser()
                 .WithId(_dataFaker.Random.Long(min: 1))
                 .WithNotificationSettings(isNotificationOn: _dataFaker.Random.Bool())
-                .WithNotificationDeliveryControl(lastOpenedNotificationDate: default);
+                .WithNotificationDeliveryControl(lastOpenedNotificationDate: DateTime.MinValue);
 
             //Act
             var validationResult = userWithDefaultLastOpenedValidationDate.Validate();
@@ -81,7 +81,7 @@ namespace UnitTests.Domain.Builders
             //Assert
             validationResult.IsValid.Should().BeTrue();
             user.Id.Should().Be(validId);
-            user.IsNotificationOn.Should().Be(validIsNotificationOn);
+            user.CanReceiveNotification.Should().Be(validIsNotificationOn);
             user.LastOpenedNotificationDate.Should().Be(validLastOpenedNotificationDate);
         }
     }

@@ -4,7 +4,7 @@ FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:6.0 AS base
 
 WORKDIR /src
 
-COPY WebApi.csproj ./
+COPY . ./
 RUN ["dotnet", "restore"]
 
 FROM base as builder

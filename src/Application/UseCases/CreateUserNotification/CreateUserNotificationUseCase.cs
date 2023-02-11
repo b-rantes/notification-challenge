@@ -1,7 +1,10 @@
 ﻿using Application.Shared.Errors;
 using Application.UseCases.CreateUserNotification.Interface;
+using Application.UseCases.CreateUserNotification.Mapper;
 using Application.UseCases.CreateUserNotification.Models;
-using Domain.Repositories.UserAggregateRepository;
+using Domain.DomainModels.Entities.NotificationAggregate;
+using Domain.Repositories.UserRepository;
+using Domain.Services.Interfaces;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 
@@ -12,20 +15,19 @@ namespace Application.UseCases.CreateUserNotification
         private readonly ILogger<CreateUserNotificationUseCase> _logger;
         private readonly IValidator<CreateUserNotificationInput> _validator;
         private readonly IUserViewRepository _userViewRepository;
+        private readonly INotificationManagerDomainService _notificationDomainService;
 
         public CreateUserNotificationUseCase(
             ILogger<CreateUserNotificationUseCase> logger,
             IValidator<CreateUserNotificationInput> validator,
-            IUserViewRepository userViewRepository)
+            IUserViewRepository userViewRepository,
+            INotificationManagerDomainService notificationDomainService)
         {
             _logger = logger;
             _validator = validator;
             _userViewRepository = userViewRepository;
+            _notificationDomainService = notificationDomainService;
         }
-        /*
-         * - Fail fast validation
-         * - Busca redis com modelo de view dado do cliente.
-         */
 
         public async Task<CreateUserNotificationOutput> CreateUserNotificationAsync(CreateUserNotificationInput input, CancellationToken cancellationToken)
         {
@@ -43,7 +45,7 @@ namespace Application.UseCases.CreateUserNotification
 
                 var user = await _userViewRepository.GetUserById(input.UserId, cancellationToken);
 
-                if (user.IsNotificationOff)
+                if (!user.CanReceiveNotification)
                 {
                     _logger.LogInformation("[{UseCase}] not creating notification due to client: {client} turned off configuration",
                         nameof(CreateUserNotificationUseCase), user.Id);
@@ -51,10 +53,10 @@ namespace Application.UseCases.CreateUserNotification
                     return CreateUserNotificationOutput.Success();
                 }
 
-                //Validate notification idempotence
-                //Create notification
-                //notification manager domain service -> User + Notification = Create notification for user
+                var notification = input.MapInputToNotification();
 
+                await _notificationDomainService.CreateUserNotificationAsync(user, notification, cancellationToken);
+                
                 return new CreateUserNotificationOutput();
             }
             catch (Exception ex)

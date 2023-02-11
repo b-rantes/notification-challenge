@@ -1,4 +1,4 @@
-﻿using Domain.ValueObjects;
+﻿using Domain.DomainModels.ValueObjects;
 using FluentAssertions;
 
 namespace UnitTests.Domain.ValueObjects
@@ -10,11 +10,10 @@ namespace UnitTests.Domain.ValueObjects
         {
             //Arrange
             var utcNowReference = DateTime.UtcNow;
-            DateTime defaultDateTime = default;
+            DateTime defaultDateTime = DateTime.MinValue;
 
             //Act, Assert
             Assert.Throws<ArgumentException>(() => new UserNotificationDeliveryControl(defaultDateTime).Validate());
-            Assert.Throws<ArgumentException>(() => new UserNotificationDeliveryControl().Validate());
         }
 
         [Fact(DisplayName = "UserNotificationDeliveryControl value object should be created successfully when properly initialized")]

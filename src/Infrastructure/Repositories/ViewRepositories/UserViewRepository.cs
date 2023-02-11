@@ -1,43 +1,40 @@
 ﻿using Domain.Builders;
-using Domain.Entities.UserAggregate;
-using Domain.Repositories.UserAggregateRepository;
+using Domain.DomainModels.Entities.UserAggregate;
+using Domain.Repositories.UserRepository;
 using Infrastructure.Cache.Interfaces;
+using Infrastructure.Repositories.DTOs;
+using MongoDB.Driver;
 
 namespace Infrastructure.Repositories.ViewRepositories
 {
     public class UserViewRepository : IUserViewRepository
     {
         private readonly ICachedUserViewRepository _cachedUserViewRepository;
-        private List<User> _inMongoUsersCache = new List<User>();
+        private readonly IMongoCollection<UserViewCollection> _collection;
 
-        public UserViewRepository(ICachedUserViewRepository cachedUserViewRepository)
+        public UserViewRepository(ICachedUserViewRepository cachedUserViewRepository, IMongoDatabase db)
         {
+            _collection = db.GetCollection<UserViewCollection>(CollectionsConstants.UserCollectionName);
+
             _cachedUserViewRepository = cachedUserViewRepository;
-            _inMongoUsersCache.Add(GenerateFakeUser(5, true, DateTime.UtcNow.AddHours(-1)));
-            _inMongoUsersCache.Add(GenerateFakeUser(6, false, DateTime.UtcNow.AddHours(-8)));
-            _inMongoUsersCache.Add(GenerateFakeUser(7, true, DateTime.UtcNow.AddDays(-1)));
-            _inMongoUsersCache.Add(GenerateFakeUser(8, false, DateTime.UtcNow.AddDays(-7)));
         }
+
 
         public async Task<User> GetUserById(long id, CancellationToken cancellationToken)
         {
-            try
-            {
-                var user = await _cachedUserViewRepository.GetUserById(id, cancellationToken);
+            var cachedUserData = await _cachedUserViewRepository.GetUserById(id, cancellationToken);
 
-                if (user is not null) return user;
+            if (cachedUserData is not null) return cachedUserData;
 
-                //Find in actual repository
-                return _inMongoUsersCache.FirstOrDefault(x => x.Id == id);
-            }
-            catch (Exception)
-            {
+            var user = (await _collection.FindAsync(x => x.Id == id, cancellationToken: cancellationToken)).FirstOrDefault();
 
-                throw;
-            }
+            if (user is null) return null;
+
+            return UserBuilder
+                .CreateUser()
+                .WithId(user.Id)
+                .WithNotificationDeliveryControl(user.LastOpenedNotificationDate.ToLocalTime())
+                .WithNotificationSettings(user.CanReceiveNotification);
         }
-
-        private User GenerateFakeUser(long id, bool isNotificationOn, DateTime lastOpeningNotificationDate)
-            => UserBuilder.CreateUser().WithId(id).WithNotificationDeliveryControl(lastOpeningNotificationDate).WithNotificationSettings(isNotificationOn);
     }
 }

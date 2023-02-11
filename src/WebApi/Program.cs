@@ -5,8 +5,9 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Prometheus;
 using System.Net;
 using System.Net.Sockets;
-using WebApi.DependencyInjection;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("IntegratedTests")]
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();

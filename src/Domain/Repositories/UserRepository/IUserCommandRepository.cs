@@ -1,6 +1,6 @@
-﻿using Domain.Entities.UserAggregate;
+﻿using Domain.DomainModels.Entities.UserAggregate;
 
-namespace Domain.Repositories.UserAggregateRepository
+namespace Domain.Repositories.UserRepository
 {
     public interface IUserCommandRepository
     {

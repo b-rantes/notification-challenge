@@ -1,8 +1,8 @@
-﻿using Domain.Entities.Abstractions;
+﻿using Domain.DomainModels.Entities.Abstractions;
+using Domain.DomainModels.ValueObjects;
 using Domain.Helpers;
-using Domain.ValueObjects;
 
-namespace Domain.Entities.UserAggregate
+namespace Domain.DomainModels.Entities.UserAggregate
 {
     public sealed class User : IAggregateRoot
     {
@@ -11,9 +11,8 @@ namespace Domain.Entities.UserAggregate
         }
 
         public long Id { get; internal set; } = -1;
-        public bool IsNotificationOn => UserNotificationSettings.IsNotificationOn;
-        public bool IsNotificationOff => !IsNotificationOn;
-        public DateTime LastOpenedNotificationDate => UserNotificationDeliveryControl.LastOpenedNotificationDate;
+        public bool CanReceiveNotification => UserNotificationSettings.CanReceiveNotification;
+        public DateTime? LastOpenedNotificationDate => UserNotificationDeliveryControl.LastOpenedNotificationDate;
 
         public void TurnOnNotifications() => SetUserNotificationSettings(new(isNotificationOn: true));
         public void TurnOffNotifications() => SetUserNotificationSettings(new(isNotificationOn: false));

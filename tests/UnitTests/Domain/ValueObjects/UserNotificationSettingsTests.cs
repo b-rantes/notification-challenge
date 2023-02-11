@@ -1,4 +1,4 @@
-﻿using Domain.ValueObjects;
+﻿using Domain.DomainModels.ValueObjects;
 using FluentAssertions;
 
 namespace UnitTests.Domain.ValueObjects
@@ -12,7 +12,7 @@ namespace UnitTests.Domain.ValueObjects
             var defaultValueObject = new UserNotificationSettings();
 
             //Assert
-            defaultValueObject.IsNotificationOn.Should().BeTrue();
+            defaultValueObject.CanReceiveNotification.Should().BeTrue();
         }
 
         [Theory(DisplayName = "UserNotificationSettings should initialize with defined parameter")]
@@ -24,7 +24,7 @@ namespace UnitTests.Domain.ValueObjects
             var valueObject = new UserNotificationSettings(parameter);
 
             //Assert
-            valueObject.IsNotificationOn.Should().Be(parameter);
+            valueObject.CanReceiveNotification.Should().Be(parameter);
         }
     }
 }

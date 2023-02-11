@@ -1,4 +1,4 @@
-﻿using Domain.Repositories.UserAggregateRepository;
+﻿using Domain.Repositories.UserRepository;
 using Infrastructure.Repositories.ViewRepositories;
 using Microsoft.Extensions.DependencyInjection;
 

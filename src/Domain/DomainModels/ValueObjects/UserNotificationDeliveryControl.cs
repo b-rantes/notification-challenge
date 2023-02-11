@@ -1,20 +1,21 @@
 ﻿using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("UnitTests")]
-namespace Domain.ValueObjects
+namespace Domain.DomainModels.ValueObjects
 {
     internal struct UserNotificationDeliveryControl
     {
         public UserNotificationDeliveryControl()
         {
+            LastOpenedNotificationDate = null;
         }
 
-        public UserNotificationDeliveryControl(DateTime lastOpenedNotificationDate)
+        public UserNotificationDeliveryControl(DateTime? lastOpenedNotificationDate)
         {
             LastOpenedNotificationDate = lastOpenedNotificationDate;
         }
 
-        public DateTime LastOpenedNotificationDate { get; private set; } = DateTime.MinValue;
+        public DateTime? LastOpenedNotificationDate { get; private set; } = null;
 
         private void ValidateLastOpenedNotificationDate()
         {
