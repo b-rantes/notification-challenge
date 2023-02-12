@@ -58,3 +58,4 @@
 /tests/IntegratedTests/obj
 /tests/IntegratedTests/bin/Debug/fine-code-coverage-net6.0
 /tests/UnitTests/bin/Debug/fine-code-coverage-net6.0
+/tests
