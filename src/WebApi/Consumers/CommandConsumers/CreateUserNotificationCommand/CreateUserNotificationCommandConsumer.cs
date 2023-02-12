@@ -34,10 +34,12 @@ namespace WebApi.Consumers.CommandConsumers.CreateUserNotificationCommand
             {
                 _logger.LogInformation("[{Worker}] consuming message for id: {id}", nameof(CreateUserNotificationCommandConsumer), message.UserId);
 
-                if (message.ScheduledNotificationUtcDate.HasValue)
+                var utcNowReference = DateTime.UtcNow;
+
+                if (message.ScheduledNotificationUtcDate.HasValue && message.ScheduledNotificationUtcDate.Value > utcNowReference)
                 {
                     BackgroundJob.Schedule(() =>
-                    ConsumeScheduledNotification(message, cancellationToken), message.ScheduledNotificationUtcDate.Value - DateTime.UtcNow);
+                    ConsumeScheduledNotification(message, cancellationToken), message.ScheduledNotificationUtcDate.Value - utcNowReference);
 
                     return;
                 }

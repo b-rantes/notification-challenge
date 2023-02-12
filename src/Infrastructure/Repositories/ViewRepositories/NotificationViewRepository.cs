@@ -33,7 +33,7 @@ namespace Infrastructure.Repositories.ViewRepositories
                 var notifications = (await _collection
                     .FindAsync(x => x.UserOwnerId == userId, findOptions, cancellationToken: cancellationToken)).ToList();
 
-                if (notifications is null) return null;
+                if (notifications is null || notifications.Count == 0) return null;
 
                 return notifications.MapNotificationCollectionToViewOutput();
             }

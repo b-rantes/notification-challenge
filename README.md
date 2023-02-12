@@ -49,6 +49,11 @@ If desired the image can be opened at [Draw.io](https://draw.io) just executing 
 ## Testing
 Within the routes inside the "AdminController," the "notification-create" route can be used to create a new notification for a user. It's important to note that the user must exist and a valid Guid must be inserted. 
 
+ScheduledNotificationUtcDate property must be initialized with a value greather than "DateTime.UtcNow" if you want to schedule a notification. Otherwise, leave it null or lower than
+UtcNow to instantly create a notification for a user.
+
+Notifications can only be created for users that exists in database
+
 The content of the notification can be generic and anything can be used. On the other hand, the "user-initial-load" route is designed to create new users in the system in a batch. For example, if the parameters "initialId" and "lastId" are inserted with the values 1 and 5 respectively, users 1, 2, 3 and 4 will be created with the parameters specified in the body. 
 
 It's recommended that only the "CanReceiveNotification" field be filled out when creating new users, leaving the rest null. Since this is an administrative route, there are no fast fail validations. 
@@ -65,6 +70,12 @@ The most relevant points for evolution are:
 3. Load testing with K6 has yet to be performed, which would put the system's resilience and performance to the test. Additionally, the development of further unit and integrated tests is necessary to increase code coverage.
 
 4. Consider strategies for clearing the notification cache, as it will be filled with new notifications for the same user without discrimination and will always load all previously received notifications into memory. It may also be useful to implement some form of pagination to prevent all notifications from being retrieved at once.
+
+5. Implement in domain service layer atomic transactions with an Unit of Work for example, to prevent changes in database when something fails.
+
+6. Implement a more appropriate error handling mechanism in the application
+
+7. Implement a dead letter mechanism in the worker layer to handle exceptions that occur and either reprocess them or perform manual handling later.
 
 ## Conclusion
 The Notification System is a scalable and resilient backend platform that provides notifications to users through a well-architected solution. It is built using .NET 6 as the backend, and leverages MongoDB as the data source, Redis as the caching mechanism, and Confluent Kafka for communication and synchronization between components. The system follows Clean Architecture principles and the CQRS (Command Query Responsibility Segregation) pattern, and uses the AdminController and NotificationController for interaction with the system. The system can be executed by cloning the repository and running docker-compose, and the API documentation can be found at localhost:<port>/swagger. Load testing will be performed using K6. However, there are points for evolution, such as the scheduling mechanism and the reactivity between the backend and frontend.

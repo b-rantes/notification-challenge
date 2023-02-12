@@ -2,9 +2,10 @@
 using Application.UseCases.CreateUserNotification.Models;
 using Application.UseCases.UpsertUserControl.Interface;
 using Application.UseCases.UpsertUserControl.Models;
+using Infrastructure.EventProducer;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Consumers.Base;
-using WebApi.Controllers.AdminControllerModels;
+using WebApi.Consumers.CommandConsumers.CreateUserNotificationCommand.Model;
 
 namespace WebApi.Controllers
 {
@@ -12,44 +13,39 @@ namespace WebApi.Controllers
     [Route("admin")]
     public class AdminController : ControllerBase
     {
-        private readonly ICreateUserNotificationUseCase _createUserNotificationUseCase;
-
         private readonly IUpsertUserControlUseCase _upsertUserControlUseCase;
         private readonly IBaseProducer _producer;
 
-        public AdminController(ICreateUserNotificationUseCase createUserNotificationUseCase,
+        public AdminController(
             IBaseProducer producer,
             IUpsertUserControlUseCase upsertUserControlUseCase)
         {
-            _createUserNotificationUseCase = createUserNotificationUseCase;
             _upsertUserControlUseCase = upsertUserControlUseCase;
             _producer = producer;
         }
 
         /// <summary>
         /// Criar uma notificação para um cliente específico.
+        /// Caso deseje agendá-la, basta enviar um DateTime válido para a prop
+        /// ScheduledNotificationUtcDate no body, em UTC.
         /// </summary>
         /// <param name="request"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpPost("notification-create")]
         [ProducesResponseType(typeof(CreateUserNotificationOutput), 200)]
-        public async Task<IActionResult> CreateUserNotification([FromBody] CreateNotificationRequest request,
+        public async Task<IActionResult> CreateUserNotification([FromBody] CreateUserNotificationCommandMessage request,
             CancellationToken cancellationToken)
         {
             try
             {
-                var output = await _createUserNotificationUseCase.CreateUserNotificationAsync(
-                    new() { UserId = request.UserId, NotificationGuid = request.NotificationId, NotificationContent = request.NotificationContent },
-                    cancellationToken);
+                await _producer.ProduceAsync(KafkaTopicsConstants.CreateUserNotificationTopic, request.UserId.ToString(), request, cancellationToken);
 
-                if (output.IsValid) return Ok(output);
-                else return BadRequest(output);
+                return Ok();
             }
             catch (Exception)
             {
-
-                throw;
+                return BadRequest();
             }
         }
 
