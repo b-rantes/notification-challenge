@@ -6,6 +6,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: admin
+      MONGO_REPLICA_SET_NAME: rs0
     ports:
       - "27017:27017"
 

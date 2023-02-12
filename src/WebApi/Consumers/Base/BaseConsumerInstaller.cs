@@ -1,4 +1,4 @@
-﻿namespace WebApi.Consumers.BaseConsumer
+﻿namespace WebApi.Consumers.Base
 {
     public static class BaseConsumerInstaller
     {

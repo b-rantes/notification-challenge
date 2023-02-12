@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Options;
 using System.Text.Json;
 
-namespace WebApi.Consumers.BaseConsumer
+namespace WebApi.Consumers.Base
 {
     public abstract class BaseConsumer<TInput> : BackgroundService
     {

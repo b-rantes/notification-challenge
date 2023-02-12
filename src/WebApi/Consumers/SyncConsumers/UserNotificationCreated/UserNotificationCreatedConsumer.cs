@@ -3,7 +3,7 @@ using Infrastructure.EventProducer;
 using Infrastructure.EventProducer.Models;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
-using WebApi.Consumers.BaseConsumer;
+using WebApi.Consumers.Base;
 using WebApi.Consumers.SyncConsumers.UserNotificationCreated.Mappers;
 
 namespace WebApi.Consumers.SyncConsumers.UserNotificationCreated

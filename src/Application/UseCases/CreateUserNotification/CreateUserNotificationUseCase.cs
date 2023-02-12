@@ -6,6 +6,7 @@ using Domain.Builders;
 using Domain.Repositories.UserRepository;
 using Domain.Services.Interfaces;
 using FluentValidation;
+using Hangfire;
 using Microsoft.Extensions.Logging;
 
 namespace Application.UseCases.CreateUserNotification
@@ -61,7 +62,7 @@ namespace Application.UseCases.CreateUserNotification
                 var notification = input.MapInputToNotification();
 
                 await _notificationDomainService.CreateUserNotificationAsync(user, notification, cancellationToken);
-                
+
                 return CreateUserNotificationOutput.Success();
             }
             catch (Exception ex)

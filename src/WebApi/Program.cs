@@ -1,8 +1,11 @@
 using Application.DependencyInjection;
 using Domain;
+using Hangfire;
+using Hangfire.Mongo;
 using Infrastructure.DependencyInjection;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
+using MongoDB.Driver;
 using Prometheus;
 using System.Net;
 using System.Net.Sockets;
@@ -90,6 +93,8 @@ void ConfigureServices(IServiceCollection services, IConfiguration configuration
     {
         options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
     });
+
+
 
     services
         .AddDomain()

@@ -1,8 +1,9 @@
 ﻿using Application.UseCases.CreateUserNotification.Interface;
+using Hangfire;
 using Infrastructure.EventProducer;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
-using WebApi.Consumers.BaseConsumer;
+using WebApi.Consumers.Base;
 using WebApi.Consumers.CommandConsumers.CreateUserNotificationCommand.Mappers;
 using WebApi.Consumers.CommandConsumers.CreateUserNotificationCommand.Model;
 
@@ -12,12 +13,15 @@ namespace WebApi.Consumers.CommandConsumers.CreateUserNotificationCommand
     {
         private readonly ICreateUserNotificationUseCase _createUserNotificationUseCase;
         private readonly ILogger<CreateUserNotificationCommandConsumer> _logger;
+        private readonly IBaseProducer _producer;
 
         public CreateUserNotificationCommandConsumer(
             IOptions<KafkaConsumerConfig> config,
             ICreateUserNotificationUseCase createUserNotificationUseCase,
-            ILogger<CreateUserNotificationCommandConsumer> logger) : base(config)
+            ILogger<CreateUserNotificationCommandConsumer> logger,
+            IBaseProducer producer) : base(config)
         {
+            _producer = producer;
             _createUserNotificationUseCase = createUserNotificationUseCase;
             _logger = logger;
         }
@@ -28,6 +32,14 @@ namespace WebApi.Consumers.CommandConsumers.CreateUserNotificationCommand
         {
             try
             {
+                if (message.ScheduledNotificationUtcDate.HasValue)
+                {
+                    BackgroundJob.Schedule(() => ConsumeScheduledNotification(message, cancellationToken),
+                        message.ScheduledNotificationUtcDate.Value - DateTime.UtcNow);
+                    
+                    return;
+                }
+
                 var input = message.MapMessageToInput();
 
                 await _createUserNotificationUseCase.CreateUserNotificationAsync(input, cancellationToken);
@@ -38,6 +50,19 @@ namespace WebApi.Consumers.CommandConsumers.CreateUserNotificationCommand
                     nameof(CreateUserNotificationCommandConsumer),
                     JsonSerializer.Serialize(message));
             }
+        }
+
+        public void ConsumeScheduledNotification(CreateUserNotificationCommandMessage input, CancellationToken cancellationToken)
+        {
+            var message = new CreateUserNotificationCommandMessage
+            {
+                NotificationContent = input.NotificationContent,
+                NotificationId = input.NotificationId,
+                ScheduledNotificationUtcDate = null,
+                UserId = input.UserId,
+            };
+
+            _ = _producer.ProduceAsync(Mailbox, message.UserId.ToString(), message, cancellationToken);
         }
     }
 }

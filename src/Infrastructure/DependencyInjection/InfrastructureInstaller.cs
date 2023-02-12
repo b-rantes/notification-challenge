@@ -1,4 +1,8 @@
-﻿using Infrastructure.Cache;
+﻿using Hangfire;
+using Hangfire.Mongo;
+using Hangfire.Mongo.Migration.Strategies;
+using Hangfire.Mongo.Migration.Strategies.Backup;
+using Infrastructure.Cache;
 using Infrastructure.EventProducer;
 using Infrastructure.Repositories;
 using Infrastructure.Repositories.DTOs;
@@ -27,11 +31,11 @@ namespace Infrastructure.DependencyInjection
 
         public static IServiceCollection AddMongoDb(this IServiceCollection services, IConfiguration configuration)
         {
+            var connectionString = configuration.GetSection(MongoDbConnectionStringPath).Value;
+            var databaseName = configuration.GetSection(MongoDbDatabaseNameStringPath).Value;
+
             services.AddSingleton(c =>
             {
-                var connectionString = configuration.GetSection(MongoDbConnectionStringPath).Value;
-                var databaseName = configuration.GetSection(MongoDbDatabaseNameStringPath).Value;
-
                 var mongoDatabase = new MongoClient(connectionString).GetDatabase(databaseName);
 
                 var compoundIndexNotificationCollection = Builders<NotificationCommandCollection>.IndexKeys
@@ -70,7 +74,28 @@ namespace Infrastructure.DependencyInjection
                 return mongoDatabase;
             });
 
+            services.AddHangfireSchedule(connectionString, databaseName);
+
             return services;
+        }
+
+        private static void AddHangfireSchedule(this IServiceCollection services, string connectionString, string databaseName)
+        {
+            services.AddHangfire(config =>
+            {
+                config.UseMongoStorage(connectionString, databaseName, new()
+                {
+                    MigrationOptions = new MongoMigrationOptions
+                    {
+                        MigrationStrategy = new MigrateMongoMigrationStrategy(),
+                        BackupStrategy = new CollectionMongoBackupStrategy()
+                    },
+                    Prefix = "hangfire.mongo",
+                    CheckConnection = true,
+                    QueuePollInterval = TimeSpan.FromMinutes(1)
+                });
+            });
+            services.AddHangfireServer();
         }
     }
 }
