@@ -27,6 +27,10 @@ The Notification System has one main entry point for creating a new notification
 Updating the user's reference to the "date of the last opened notification" through their request to the backend not only serves as a way to track user activity and provide a more personalized experience, but also as a means to enhance system performance by avoiding millions of additional database operations per day.
 
 
+The implementation of the Backend for Frontend (BFF) pattern is also employed in the architecture. This approach takes advantage of the "notification system API" as the information source to effectively map the data to the targeted platform. The result is not only a more customized experience for the user, but also the ability to scale the applications for each platform as required, providing greater flexibility and efficiency.
+
+Expanding the notification system to include SMS, email, or push notifications can be achieved with ease. This can be done by creating additional consumer groups in the domain event topics to trigger specific processes. For instance, we can create a new application with a consumer group that listens to the "user-notification-created" topic. Upon capturing this topic, the application will have access to both the notification content and the relevant user information contained within the topic message, enabling it to consume data from other systems and send an SMS to the user. This enhances the functionality of the notification system to meet new requirements.
+
 Finally, the scheduling mechanism of the system is simply a separate component that delays the creation of notifications until the scheduled date arrives. This component operates outside of the main code structure and is simply a part of the overall system design.
 
 If desired the image can be opened at [Draw.io](https://draw.io) just executing the file "projeto meli.drawio" contained in the root folder
