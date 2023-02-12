@@ -46,6 +46,15 @@ If desired the image can be opened at [Draw.io](https://draw.io) just executing 
 8. Use the AdminController in the Swagger API to interact with the Kafka Producers.
 9. The NotificationController can be used to fetch and manage user notifications, including opt-in/opt-out options.
 
+## Testing
+Within the routes inside the "AdminController," the "notification-create" route can be used to create a new notification for a user. It's important to note that the user must exist and a valid Guid must be inserted. 
+
+The content of the notification can be generic and anything can be used. On the other hand, the "user-initial-load" route is designed to create new users in the system in a batch. For example, if the parameters "initialId" and "lastId" are inserted with the values 1 and 5 respectively, users 1, 2, 3 and 4 will be created with the parameters specified in the body. 
+
+It's recommended that only the "CanReceiveNotification" field be filled out when creating new users, leaving the rest null. Since this is an administrative route, there are no fast fail validations. 
+
+This route can also be used to update an existing user. For instance, to update user 3, simply insert the parameters 3 and 4, and the user will be updated with the values in the body.
+
 ## Points for Evolution
 The most relevant points for evolution are:
 
