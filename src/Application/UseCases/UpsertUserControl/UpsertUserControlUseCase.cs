@@ -32,6 +32,9 @@ namespace Application.UseCases.UpsertUserControl
         {
             try
             {
+                _logger.LogInformation("[{UseCase}] started execution for id: {id}",
+                    nameof(UpsertUserControlUseCase), input.UserId);
+
                 var validationResult = await _validator.ValidateAsync(input, cancellationToken);
 
                 if (!validationResult.IsValid)
@@ -45,6 +48,9 @@ namespace Application.UseCases.UpsertUserControl
                 var upsertInput = input.MapInputToUpsertUserInput();
 
                 await _userDomainService.UpsertUserAsync(upsertInput, cancellationToken);
+
+                _logger.LogInformation("[{UseCase}] finished execution for id: {id} successfully",
+                    nameof(UpsertUserControlUseCase), input.UserId);
 
                 return UpsertUserControlOutput.Success();
             }

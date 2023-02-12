@@ -24,7 +24,8 @@ namespace Infrastructure.Repositories.CommandRepositories
                 var updateOperationList = new List<UpdateDefinition<UserCommandCollection>>();
 
                 var upsertId = Builders<UserCommandCollection>.Update
-                    .SetOnInsert(x => x.Id, upsertInput.Id);
+                    .SetOnInsert(x => x.Id, upsertInput.Id)
+                    .CurrentDate(x => x.LastUpdate);
 
                 updateOperationList.Add(upsertId);
 

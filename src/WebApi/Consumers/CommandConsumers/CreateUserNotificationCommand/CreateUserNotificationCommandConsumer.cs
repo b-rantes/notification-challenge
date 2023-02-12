@@ -32,6 +32,8 @@ namespace WebApi.Consumers.CommandConsumers.CreateUserNotificationCommand
         {
             try
             {
+                _logger.LogInformation("[{Worker}] consuming message for id: {id}", nameof(CreateUserNotificationCommandConsumer), message.UserId);
+                
                 if (message.ScheduledNotificationUtcDate.HasValue)
                 {
                     BackgroundJob.Schedule(() => ConsumeScheduledNotification(message, cancellationToken),

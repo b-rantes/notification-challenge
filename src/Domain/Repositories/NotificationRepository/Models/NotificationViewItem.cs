@@ -5,5 +5,6 @@
         public DateTime NotificationCreationDate { get; set; }
         public object? NotificationContent { get; set; }
         public string NotificationId { get; set; }
+        public DateTime InsertedAt { get; set; }
     }
 }

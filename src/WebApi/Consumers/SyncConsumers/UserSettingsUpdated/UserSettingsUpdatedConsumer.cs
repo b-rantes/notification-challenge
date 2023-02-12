@@ -28,6 +28,8 @@ namespace WebApi.Consumers.SyncConsumers.UserSettingsUpdated
         {
             try
             {
+                _logger.LogInformation("[{Worker}] consuming message for id: {id}", nameof(UserSettingsUpdatedConsumer), message.UserId);
+                
                 var input = message.MapMessageToInput();
 
                 await _updateUserViewService.UpdateUserViewAsync(input, cancellationToken);

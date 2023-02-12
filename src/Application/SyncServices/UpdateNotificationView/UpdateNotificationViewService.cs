@@ -28,6 +28,9 @@ namespace Application.SyncServices.UpdateNotificationView
         {
             try
             {
+                _logger.LogInformation("[{UseCase}] started execution for id: {id}",
+                    nameof(UpdateNotificationViewService), input.NotificationId);
+
                 var validationResult = await _validator.ValidateAsync(input, cancellationToken);
 
                 if (!validationResult.IsValid)
@@ -44,6 +47,7 @@ namespace Application.SyncServices.UpdateNotificationView
 
                 _logger.LogInformation("[{UseCase}] executed successfully for client: {userId}",
                     nameof(UpdateNotificationViewService), input.UserOwnerId);
+
                 return UpdateNotificationViewOutput.Success();
             }
             catch (Exception ex)

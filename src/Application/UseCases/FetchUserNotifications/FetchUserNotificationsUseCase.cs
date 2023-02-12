@@ -1,4 +1,5 @@
 ﻿using Application.Shared.Errors;
+using Application.UseCases.CreateUserNotification;
 using Application.UseCases.FetchUserNotifications.Interface;
 using Application.UseCases.FetchUserNotifications.Models;
 using Domain.Repositories.UserRepository;
@@ -31,6 +32,9 @@ namespace Application.UseCases.FetchUserNotifications
         {
             try
             {
+                _logger.LogInformation("[{UseCase}] started execution for id: {id}",
+                    nameof(FetchUserNotificationsUseCase), input.UserId); 
+                
                 var validationResult = await _validator.ValidateAsync(input, cancellationToken);
 
                 if (!validationResult.IsValid)
@@ -43,7 +47,11 @@ namespace Application.UseCases.FetchUserNotifications
 
                 var result = await _notificationDomainService.FetchUserNotificationsAsync(input.UserId, cancellationToken);
 
-                return FetchUserNotificationsOutput.Success(result.Notifications, result.NewNotificationsCount);
+
+                _logger.LogInformation("[{UseCase}] finished execution for id: {id} successfully",
+                    nameof(CreateUserNotificationUseCase), input.UserId);
+
+                return FetchUserNotificationsUseCase.Success(result.Notifications, result.NewNotificationsCount);
             }
             catch (Exception ex)
             {

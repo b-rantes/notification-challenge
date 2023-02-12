@@ -28,6 +28,10 @@ namespace WebApi.Consumers.CommandConsumers.UserNotificationsFetched
         {
             try
             {
+                _logger.LogInformation("[{Worker}] consuming message for id: {id}",
+                    nameof(UserNotificationsFetchedConsumer),
+                    message.UserId);
+
                 var input = message.MapMessageToInput();
 
                 await _upsertUserControlUseCase.UpsertUserSettingsAsync(input, cancellationToken);

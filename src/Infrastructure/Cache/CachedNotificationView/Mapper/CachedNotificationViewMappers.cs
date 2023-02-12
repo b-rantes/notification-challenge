@@ -18,11 +18,13 @@ namespace Infrastructure.Cache.CachedNotificationView.Mapper
             {
                 LastOpenedNotificationDate = input.LastOpenedNotificationDate ?? default,
                 UserId = input.UserId,
+                LastUpdate = DateTime.UtcNow,
                 Notifications = new List<NotificationViewItem> { new()
                 {
                     NotificationContent = input.NotificationContent,
                     NotificationCreationDate= input.NotificationCreationDate,
                     NotificationId = input.NotificationId.ToString(),
+                    InsertedAt = DateTime.UtcNow,
                 } }
             }, _options);
         }
@@ -35,7 +37,8 @@ namespace Infrastructure.Cache.CachedNotificationView.Mapper
             {
                 LastOpenedNotificationDate = input.LastOpenedNotificationDate ?? default,
                 UserId = input.UserId,
-                Notifications = oldView.Notifications
+                Notifications = oldView.Notifications,
+                LastUpdate = DateTime.UtcNow
             }, _options);
         }
 
@@ -45,7 +48,8 @@ namespace Infrastructure.Cache.CachedNotificationView.Mapper
             {
                 NotificationId = input.NotificationId.ToString(),
                 NotificationCreationDate = input.NotificationCreationDate,
-                NotificationContent = input.NotificationContent
+                NotificationContent = input.NotificationContent,
+                InsertedAt = DateTime.UtcNow
             };
     }
 }

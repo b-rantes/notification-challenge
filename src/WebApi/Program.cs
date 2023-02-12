@@ -1,12 +1,12 @@
 using Application.DependencyInjection;
 using Domain;
 using Hangfire;
-using Hangfire.Mongo;
 using Infrastructure.DependencyInjection;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
 using MongoDB.Driver;
 using Prometheus;
+using Serilog;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
@@ -15,10 +15,16 @@ using WebApi.DependencyInjection;
 [assembly: InternalsVisibleTo("IntegratedTests")]
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Host.UseSerilog((ctx, lc) =>
+{
+    lc.WriteTo.Console();
+});
+
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 
 ConfigureServices(builder.Services, builder.Configuration);
 

@@ -28,6 +28,10 @@ namespace WebApi.Consumers.SyncConsumers.UserNotificationCreated
         {
             try
             {
+                _logger.LogInformation("[{Worker}] consuming message for id: {id}",
+                    nameof(UserNotificationCreatedConsumer),
+                    message.NotificationId);
+
                 var input = message.MapMessageToInput();
 
                 await _updateNotificationViewService.UpdateNotificationViewAsync(input, cancellationToken);

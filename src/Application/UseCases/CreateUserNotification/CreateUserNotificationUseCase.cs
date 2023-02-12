@@ -6,7 +6,6 @@ using Domain.Builders;
 using Domain.Repositories.UserRepository;
 using Domain.Services.Interfaces;
 using FluentValidation;
-using Hangfire;
 using Microsoft.Extensions.Logging;
 
 namespace Application.UseCases.CreateUserNotification
@@ -34,6 +33,9 @@ namespace Application.UseCases.CreateUserNotification
         {
             try
             {
+                _logger.LogInformation("[{UseCase}] started execution for id: {id}",
+                    nameof(CreateUserNotificationUseCase), input.UserId);
+                
                 var validationResult = await _validator.ValidateAsync(input, cancellationToken);
 
                 if (!validationResult.IsValid)
@@ -63,6 +65,8 @@ namespace Application.UseCases.CreateUserNotification
 
                 await _notificationDomainService.CreateUserNotificationAsync(user, notification, cancellationToken);
 
+                _logger.LogInformation("[{UseCase}] finished execution for id: {id} successfully",
+                    nameof(CreateUserNotificationUseCase), input.UserId);
                 return CreateUserNotificationOutput.Success();
             }
             catch (Exception ex)

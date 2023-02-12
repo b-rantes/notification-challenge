@@ -19,7 +19,8 @@ namespace Infrastructure.Repositories.Mappers
             {
                 NotificationId = notification.NotificationId.ToString(),
                 UserOwnerId = notification.UserOwnerId,
-                NotificationCreationDate = notification.NotificationCreationDate!.Value
+                NotificationCreationDate = notification.NotificationCreationDate!.Value,
+                LastUpdate = DateTime.UtcNow
             };
 
             if (BsonDocument.TryParse(JsonSerializer.Serialize(notification.NotificationContent, _options), out var notificationContent))

@@ -18,6 +18,7 @@ namespace Infrastructure.Cache.CachedUserView.Mapper
                 Id = input.Id,
                 CanReceiveNotification = input.CanReceiveNotification,
                 LastOpenedNotificationDate = input.LastOpenedNotificationDate,
+                LastUpdate = DateTime.UtcNow
             }, _options);
 
         public static string MapInputToUserControlView(this UserControlView oldView, UpdateCachedUserControlViewInput input) =>
@@ -26,6 +27,7 @@ namespace Infrastructure.Cache.CachedUserView.Mapper
                 Id = input.Id,
                 CanReceiveNotification = input.CanReceiveNotification ?? oldView.CanReceiveNotification,
                 LastOpenedNotificationDate = input.LastOpenedNotificationDate ?? oldView.LastOpenedNotificationDate,
+                LastUpdate = DateTime.UtcNow
             }, _options);
     }
 }

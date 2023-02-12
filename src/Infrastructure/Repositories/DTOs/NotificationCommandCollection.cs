@@ -12,5 +12,6 @@ namespace Infrastructure.Repositories.DTOs
         public long UserOwnerId { get; set; }
         public DateTime NotificationCreationDate { get; set; }
         public BsonDocument NotificationContent { get; set; } = new BsonDocument();
+        public DateTime LastUpdate { get; set; }
     }
 }

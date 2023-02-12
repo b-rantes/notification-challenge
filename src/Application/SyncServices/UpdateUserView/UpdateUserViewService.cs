@@ -28,6 +28,9 @@ namespace Application.SyncServices.UpdateUserView
         {
             try
             {
+                _logger.LogInformation("[{UseCase}] started execution for id: {id}",
+                    nameof(UpdateUserViewService), input.UserId);
+
                 var validationResult = await _validator.ValidateAsync(input, cancellationToken);
 
                 if (!validationResult.IsValid)
