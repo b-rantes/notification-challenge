@@ -2,17 +2,6 @@ version: '3.4'
 
 services:
 
-  notificationsystem:
-    build: 
-      context: src/WebApi
-    restart: always
-    depends_on:
-      - redis_image
-      - mongodb
-      - kafka
-    environment:
-      - ASPNETCORE_URLS=http://+:8000
-
   mongodb:
     image: mongo
     environment:
@@ -38,6 +27,7 @@ services:
       JVM_OPTS: "-Xms16M -Xmx48M -Xss180K -XX:-TieredCompilation -XX:+UseStringDeduplication -noverify"
     depends_on:
       - "kafka"
+
   kafka:
     image: obsidiandynamics/kafka
     restart: "no"

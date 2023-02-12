@@ -1,42 +1,18 @@
-# syntax=docker/dockerfile:1.4
+# Use an official .NET 6.0 runtime image as the base image
+FROM mcr.microsoft.com/dotnet/sdk:6.0
 
-FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:6.0 AS base
-
-WORKDIR /src
-
-COPY . ./
-RUN ["dotnet", "restore"]
-
-FROM base as builder
-
-COPY . .
-
-CMD ["dotnet", "build", "-c", "-o", "/build"]
-
-FROM builder as dev-envs
-
-RUN <<EOF
-apt-get update
-apt-get install -y git
-EOF
-
-RUN <<EOF
-useradd -s /bin/bash -m vscode
-groupadd docker
-usermod -aG docker vscode
-EOF
-# install Docker tools (cli, buildx, compose)
-COPY --from=gloursdocker/docker / /
-
-CMD ["dotnet", "run"]
-
-FROM builder AS publisher
-
-RUN ["dotnet", "publish", "-c", "Release", "-o", "/build"]
-
-FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/aspnet:6.0
-
+# Set the working directory to /app
 WORKDIR /app
-COPY --from=publisher /build .
 
-CMD ["dotnet", "WebApi.dll"]
+# Copy the current directory contents into the container at /app
+COPY . ./
+
+# Restore the packages for the Web API project
+RUN dotnet restore ./src/WebApi/WebApi.csproj
+
+# Build the Web API project
+RUN dotnet build ./src/WebApi/WebApi.csproj -c Release
+
+# Set the entry point for the Docker container
+WORKDIR /app
+ENTRYPOINT ["dotnet", "run", "--project", "./src/WebApi/WebApi.csproj"]
