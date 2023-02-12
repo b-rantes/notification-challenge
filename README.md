@@ -23,6 +23,10 @@ The architecture of the system follows the CQRS (Command Query Responsibility Se
 
 The implementation of the system follows Clean Architecture principles, with a clear separation of concerns in the code. This approach helps prepare the solution for future deployment as microservices and makes it easier to maintain separate code repositories.
 
+The Notification System has one main entry point for creating a new notification for a user, which is the "create-user-notification-command" topic. This topic is responsible for creating a new notification and storing it in the system's database. The user's request to the backend also updates the client's state, updating their reference to the "last opened notification date".
+Updating the user's reference to the "date of the last opened notification" through their request to the backend not only serves as a way to track user activity and provide a more personalized experience, but also as a means to enhance system performance by avoiding millions of additional database operations per day.
+
+
 Finally, the scheduling mechanism of the system is simply a separate component that delays the creation of notifications until the scheduled date arrives. This component operates outside of the main code structure and is simply a part of the overall system design.
 
 If desired the image can be opened at [Draw.io](https://draw.io) just executing the file "projeto meli.drawio" contained in the root folder
