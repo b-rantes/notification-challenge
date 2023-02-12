@@ -13,7 +13,7 @@ namespace Infrastructure.Repositories.DTOs
         public DateTime LastOpenedNotificationDate { get; set; }
 
         public bool CanReceiveNotification { get; set; }
-        
+
         public DateTime LastUpdate { get; set; }
     }
 }

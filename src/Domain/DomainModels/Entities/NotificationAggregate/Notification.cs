@@ -1,6 +1,4 @@
 ﻿using Domain.DomainModels.Entities.Abstractions;
-using Domain.DomainModels.Enuns;
-using Domain.Exceptions;
 using Domain.Helpers;
 using System.Runtime.CompilerServices;
 

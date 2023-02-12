@@ -1,7 +1,5 @@
 ﻿using Bogus;
 using Domain.DomainModels.Entities.NotificationAggregate;
-using Domain.DomainModels.Enuns;
-using Domain.Exceptions;
 using FluentAssertions;
 
 namespace UnitTests.Domain.Entities

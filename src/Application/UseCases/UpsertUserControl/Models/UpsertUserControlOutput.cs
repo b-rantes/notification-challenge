@@ -1,5 +1,4 @@
 ﻿using Application.Shared.Errors;
-using Domain.Services.Models;
 
 namespace Application.UseCases.UpsertUserControl.Models
 {

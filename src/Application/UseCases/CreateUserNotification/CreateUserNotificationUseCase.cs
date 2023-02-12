@@ -35,7 +35,7 @@ namespace Application.UseCases.CreateUserNotification
             {
                 _logger.LogInformation("[{UseCase}] started execution for id: {id}",
                     nameof(CreateUserNotificationUseCase), input.UserId);
-                
+
                 var validationResult = await _validator.ValidateAsync(input, cancellationToken);
 
                 if (!validationResult.IsValid)

@@ -10,7 +10,7 @@ namespace Application.SyncServices.UpdateUserView.Mapper
             return new UpdateCachedUserControlViewInput
             {
                 Id = input.UserId,
-                LastOpenedNotificationDate= input.LastOpenedNotificationDate,
+                LastOpenedNotificationDate = input.LastOpenedNotificationDate,
                 CanReceiveNotification = input.CanReceiveNotification
             };
         }

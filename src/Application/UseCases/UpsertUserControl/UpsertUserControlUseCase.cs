@@ -2,7 +2,6 @@
 using Application.UseCases.UpsertUserControl.Interface;
 using Application.UseCases.UpsertUserControl.Mapper;
 using Application.UseCases.UpsertUserControl.Models;
-using Domain.Repositories.UserRepository;
 using Domain.Services.Interfaces;
 using FluentValidation;
 using Microsoft.Extensions.Logging;

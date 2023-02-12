@@ -1,7 +1,6 @@
 ﻿using Application.Shared.Errors;
 using Application.UseCases.FetchUserNotifications.Interface;
 using Application.UseCases.FetchUserNotifications.Models;
-using Domain.Repositories.UserRepository;
 using Domain.Services.Interfaces;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
@@ -29,8 +28,8 @@ namespace Application.UseCases.FetchUserNotifications
             try
             {
                 _logger.LogInformation("[{UseCase}] started execution for id: {id}",
-                    nameof(FetchUserNotificationsUseCase), input.UserId); 
-                
+                    nameof(FetchUserNotificationsUseCase), input.UserId);
+
                 var validationResult = await _validator.ValidateAsync(input, cancellationToken);
 
                 if (!validationResult.IsValid)

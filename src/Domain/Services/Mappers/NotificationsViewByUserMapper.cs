@@ -1,5 +1,4 @@
-﻿using Domain.DomainModels.Entities.UserAggregate;
-using Domain.Repositories.NotificationRepository.Models;
+﻿using Domain.Repositories.NotificationRepository.Models;
 using Domain.Services.Models;
 
 namespace Domain.Services.Mappers
@@ -7,7 +6,7 @@ namespace Domain.Services.Mappers
     public static class NotificationsViewByUserMapper
     {
         public static UserNotificationsOutput MapNotificationsByUserToOutput(
-            this NotificationsViewByUserOutput notificationsByUser, 
+            this NotificationsViewByUserOutput notificationsByUser,
             DateTime lastOpenedNotificationDate)
         {
             var notifications = new List<NotificationItem>();

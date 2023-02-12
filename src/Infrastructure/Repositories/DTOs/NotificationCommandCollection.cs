@@ -7,7 +7,7 @@ namespace Infrastructure.Repositories.DTOs
     {
         [BsonId]
         public ObjectId Identification { get; set; }
-        
+
         public string NotificationId { get; set; }
         public long UserOwnerId { get; set; }
         public DateTime NotificationCreationDate { get; set; }

@@ -38,7 +38,7 @@ namespace WebApi.Consumers.Base
                     }
                     catch (Exception)
                     {
-                        
+
                     }
                 }
             }, stoppingToken);
