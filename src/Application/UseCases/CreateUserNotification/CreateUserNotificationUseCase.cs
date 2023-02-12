@@ -2,7 +2,7 @@
 using Application.UseCases.CreateUserNotification.Interface;
 using Application.UseCases.CreateUserNotification.Mapper;
 using Application.UseCases.CreateUserNotification.Models;
-using Domain.DomainModels.Entities.NotificationAggregate;
+using Domain.Builders;
 using Domain.Repositories.UserRepository;
 using Domain.Services.Interfaces;
 using FluentValidation;
@@ -43,7 +43,12 @@ namespace Application.UseCases.CreateUserNotification
                     return CreateUserNotificationOutput.Fail(ErrorsConstants.FailFastError);
                 }
 
-                var user = await _userViewRepository.GetUserById(input.UserId, cancellationToken);
+                var userControlView = await _userViewRepository.GetUserById(input.UserId, cancellationToken);
+
+                var user = UserBuilder.CreateUser()
+                    .WithId(userControlView.Id)
+                    .WithNotificationDeliveryControl(userControlView.LastOpenedNotificationDate)
+                    .WithNotificationSettings(userControlView.CanReceiveNotification);
 
                 if (!user.CanReceiveNotification)
                 {
@@ -57,7 +62,7 @@ namespace Application.UseCases.CreateUserNotification
 
                 await _notificationDomainService.CreateUserNotificationAsync(user, notification, cancellationToken);
                 
-                return new CreateUserNotificationOutput();
+                return CreateUserNotificationOutput.Success();
             }
             catch (Exception ex)
             {

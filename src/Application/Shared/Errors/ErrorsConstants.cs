@@ -1,5 +1,8 @@
-﻿namespace Application.Shared.Errors
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Application.Shared.Errors
 {
+    [ExcludeFromCodeCoverage]
     public static class ErrorsConstants
     {
         private const string FailFastValidationErrorMessage = "Error in fail fast validation";

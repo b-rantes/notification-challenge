@@ -1,5 +1,8 @@
-﻿namespace Application.Shared.Errors
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Application.Shared.Errors
 {
+    [ExcludeFromCodeCoverage]
     public struct Error : IEquatable<Error>
     {
         public Error(string errorMessage, bool canRetry)

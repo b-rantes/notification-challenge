@@ -42,8 +42,4 @@
         <ProjectReference Include="..\..\src\WebApi\WebApi.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Infrastructure\Repositories\CommandRepositories\" />
-    </ItemGroup>
-
 </Project>

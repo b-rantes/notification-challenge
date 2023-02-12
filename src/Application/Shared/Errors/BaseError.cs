@@ -1,17 +1,21 @@
-﻿namespace Application.Shared.Errors
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Application.Shared.Errors
 {
+    [ExcludeFromCodeCoverage]
     public class BaseError
     {
         public BaseError()
         {
-
+            IsValid = true;
         }
-        public BaseError(Error? error)
+        public BaseError(Error error)
         {
             Error = error;
+            IsValid = false;
         }
 
-        public bool IsValid => Error != null;
-        public Error? Error { get; set; } = null;
+        public bool IsValid { get; private set; }
+        public Error Error { get; set; }
     }
 }

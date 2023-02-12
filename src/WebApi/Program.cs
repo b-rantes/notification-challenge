@@ -1,4 +1,5 @@
 using Application.DependencyInjection;
+using Domain;
 using Infrastructure.DependencyInjection;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -89,8 +90,8 @@ void ConfigureServices(IServiceCollection services, IConfiguration configuration
         options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
     });
 
-    //services.AddMongoDb(configuration);
     services
+        .AddDomain()
         .AddUseCases(configuration)
         .AddInfrastructure(configuration);
 }

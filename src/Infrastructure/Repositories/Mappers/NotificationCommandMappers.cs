@@ -16,7 +16,7 @@ namespace Infrastructure.Repositories.Mappers
         {
             var document = new NotificationCommandCollection
             {
-                NotificationId = notification.NotificationId,
+                NotificationId = notification.NotificationId.ToString(),
                 UserOwnerId = notification.UserOwnerId,
                 NotificationCreationDate = notification.NotificationCreationDate!.Value
             };

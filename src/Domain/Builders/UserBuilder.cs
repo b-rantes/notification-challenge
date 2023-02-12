@@ -12,9 +12,9 @@ namespace Domain.Builders
             return user;
         }
 
-        public static User WithNotificationSettings(this User user, bool isNotificationOn = true)
+        public static User WithNotificationSettings(this User user, bool? isNotificationOn = true)
         {
-            user.SetUserNotificationSettings(new(isNotificationOn));
+            user.SetUserNotificationSettings(new(isNotificationOn ?? true));
             return user;
         }
 

@@ -5,6 +5,7 @@ using Domain.Helpers;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("UnitTests")]
+[assembly: InternalsVisibleTo("IntegratedTests")]
 namespace Domain.DomainModels.Entities.NotificationAggregate
 {
     public sealed class Notification : IAggregateRoot

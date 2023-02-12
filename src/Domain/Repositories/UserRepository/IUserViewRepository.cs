@@ -1,9 +1,9 @@
-﻿using Domain.DomainModels.Entities.UserAggregate;
+﻿using Domain.Repositories.UserRepository.Models;
 
 namespace Domain.Repositories.UserRepository
 {
     public interface IUserViewRepository
     {
-        public Task<User> GetUserById(long id, CancellationToken cancellationToken);
+        public Task<UserControlView> GetUserById(long id, CancellationToken cancellationToken);
     }
 }

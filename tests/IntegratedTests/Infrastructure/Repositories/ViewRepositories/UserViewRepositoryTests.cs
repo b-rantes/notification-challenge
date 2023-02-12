@@ -30,7 +30,7 @@ namespace IntegratedTests.Infrastructure.Repositories.ViewRepositories
         public async Task ExistingItem_Should_Return_Correctly()
         {
             //Arrange
-            var userCollection = GenerateValidCollectionUser(_dataFaker.Random.Long(min: 1), _dataFaker.Random.Bool(), _dataFaker.Date.Recent());
+            var userCollection = GenerateValidCollectionUser(_dataFaker.Random.Long(min: 1), _dataFaker.Random.Bool(), _dataFaker.Date.Recent().ToUniversalTime());
             _userViewCollection.InsertOne(userCollection);
 
             //Act

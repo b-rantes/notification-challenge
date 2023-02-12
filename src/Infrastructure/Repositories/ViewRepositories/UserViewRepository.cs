@@ -1,8 +1,8 @@
-﻿using Domain.Builders;
-using Domain.DomainModels.Entities.UserAggregate;
-using Domain.Repositories.UserRepository;
+﻿using Domain.Repositories.UserRepository;
+using Domain.Repositories.UserRepository.Models;
 using Infrastructure.Cache.Interfaces;
 using Infrastructure.Repositories.DTOs;
+using Infrastructure.Repositories.Mappers;
 using MongoDB.Driver;
 
 namespace Infrastructure.Repositories.ViewRepositories
@@ -20,7 +20,7 @@ namespace Infrastructure.Repositories.ViewRepositories
         }
 
 
-        public async Task<User> GetUserById(long id, CancellationToken cancellationToken)
+        public async Task<UserControlView> GetUserById(long id, CancellationToken cancellationToken)
         {
             var cachedUserData = await _cachedUserViewRepository.GetUserById(id, cancellationToken);
 
@@ -30,11 +30,7 @@ namespace Infrastructure.Repositories.ViewRepositories
 
             if (user is null) return null;
 
-            return UserBuilder
-                .CreateUser()
-                .WithId(user.Id)
-                .WithNotificationDeliveryControl(user.LastOpenedNotificationDate.ToLocalTime())
-                .WithNotificationSettings(user.CanReceiveNotification);
+            return user.MapUserCollectionToUserControlView();
         }
     }
 }
