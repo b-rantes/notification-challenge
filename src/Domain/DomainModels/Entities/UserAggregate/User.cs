@@ -14,8 +14,6 @@ namespace Domain.DomainModels.Entities.UserAggregate
         public bool CanReceiveNotification => UserNotificationSettings.CanReceiveNotification;
         public DateTime? LastOpenedNotificationDate => UserNotificationDeliveryControl.LastOpenedNotificationDate;
 
-        public void TurnOnNotifications() => SetUserNotificationSettings(new(isNotificationOn: true));
-        public void TurnOffNotifications() => SetUserNotificationSettings(new(isNotificationOn: false));
         public void OpenNotification() => SetUserNotificationDeliveryControl(new(lastOpenedNotificationDate: DateTime.UtcNow));
 
         internal UserNotificationDeliveryControl UserNotificationDeliveryControl { get; set; }

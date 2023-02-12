@@ -11,6 +11,7 @@ namespace Domain
         public static IServiceCollection AddDomain(this IServiceCollection services)
         {
             services.AddTransient<INotificationManagerDomainService, NotificationManagerDomainService>();
+            services.AddTransient<IUserManagerDomainService, UserManagerDomainService>();
 
             return services;
         }

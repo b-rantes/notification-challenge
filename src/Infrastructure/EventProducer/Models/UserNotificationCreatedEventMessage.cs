@@ -1,6 +1,6 @@
 ﻿namespace Infrastructure.EventProducer.Models
 {
-    public class NotificationCreatedEventMessage
+    public class UserNotificationCreatedEventMessage
     {
         public Guid NotificationId { get;set; }
         public long UserOwnerId { get;set; }

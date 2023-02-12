@@ -1,7 +1,6 @@
 ﻿using Application.Shared.Errors;
 using Application.UseCases.FetchUserNotifications.Interface;
 using Application.UseCases.FetchUserNotifications.Models;
-using Domain.Builders;
 using Domain.Repositories.UserRepository;
 using Domain.Services.Interfaces;
 using FluentValidation;
@@ -42,18 +41,9 @@ namespace Application.UseCases.FetchUserNotifications
                     return FetchUserNotificationsOutput.Fail(ErrorsConstants.FailFastError);
                 }
 
-                var userControlView = await _userViewRepository.GetUserById(input.UserId, cancellationToken);
+                var result = await _notificationDomainService.FetchUserNotificationsAsync(input.UserId, cancellationToken);
 
-                if (userControlView is null) return null;
-
-                var user = UserBuilder.CreateUser()
-                    .WithId(userControlView.Id)
-                    .WithNotificationDeliveryControl(userControlView.LastOpenedNotificationDate)
-                    .WithNotificationSettings(userControlView.CanReceiveNotification);
-
-                await _notificationDomainService.FetchUserNotificationsAsync(input.UserId, cancellationToken);
-                
-                return FetchUserNotificationsOutput.Success();
+                return FetchUserNotificationsOutput.Success(result.Notifications, result.NewNotificationsCount);
             }
             catch (Exception ex)
             {

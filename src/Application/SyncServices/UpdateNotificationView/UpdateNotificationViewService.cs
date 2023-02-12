@@ -42,6 +42,8 @@ namespace Application.SyncServices.UpdateNotificationView
 
                 await _cachedNotificationViewRepository.UpdateInCacheNotificationViewByUser(cachedNotificationView, cancellationToken);
 
+                _logger.LogInformation("[{UseCase}] executed successfully for client: {userId}",
+                    nameof(UpdateNotificationViewService), input.UserOwnerId);
                 return UpdateNotificationViewOutput.Success();
             }
             catch (Exception ex)

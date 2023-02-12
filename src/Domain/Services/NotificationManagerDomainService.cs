@@ -74,11 +74,14 @@ namespace Domain.Services
                     .WithNotificationSettings(userControlView.CanReceiveNotification)
                     .WithNotificationDeliveryControl(userControlView.LastOpenedNotificationDate);
 
+                var lastOpenedNotificationDateReference = user.LastOpenedNotificationDate;
+
                 user.OpenNotification();
 
                 _ = _domainEventsProducer.ProduceUserOpenedNotificationsEvent(user, cancellationToken);
 
-                return notifications.MapNotificationsByUserToOutput(user);
+                return notifications.MapNotificationsByUserToOutput(lastOpenedNotificationDateReference.HasValue ?
+                    lastOpenedNotificationDateReference.Value : DateTime.MinValue);
             }
             catch (Exception ex)
             {

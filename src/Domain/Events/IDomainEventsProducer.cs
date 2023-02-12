@@ -6,7 +6,7 @@ namespace Domain.Events
     public interface IDomainEventsProducer
     {
         public Task ProduceNotificationCreatedEvent(Notification notification, User user, CancellationToken cancellationToken);
-        public Task ProduceUserUpdatedEvent(User user, CancellationToken cancellationToken);
+        public Task ProduceUserSettingsUpdatedEvent(ProduceUserSettingsUpdatedInput userSettingsUpdatedInput, CancellationToken cancellationToken);
         public Task ProduceUserOpenedNotificationsEvent(User user, CancellationToken cancellationToken);
     }
 }

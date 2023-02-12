@@ -7,6 +7,7 @@ using Prometheus;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
+using WebApi.DependencyInjection;
 
 [assembly: InternalsVisibleTo("IntegratedTests")]
 var builder = WebApplication.CreateBuilder(args);
@@ -94,5 +95,6 @@ void ConfigureServices(IServiceCollection services, IConfiguration configuration
         .AddDomain()
         .AddUseCases(configuration)
         .AddInfrastructure(configuration)
-        .AddSyncServices();
+        .AddSyncServices()
+        .AddWorkers(configuration);
 }

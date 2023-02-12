@@ -6,7 +6,9 @@ namespace Domain.Services.Mappers
 {
     public static class NotificationsViewByUserMapper
     {
-        public static UserNotificationsOutput MapNotificationsByUserToOutput(this NotificationsViewByUserOutput notificationsByUser, User user)
+        public static UserNotificationsOutput MapNotificationsByUserToOutput(
+            this NotificationsViewByUserOutput notificationsByUser, 
+            DateTime lastOpenedNotificationDate)
         {
             var notifications = new List<NotificationItem>();
 
@@ -17,7 +19,7 @@ namespace Domain.Services.Mappers
                 {
                     NotificationContent = x.NotificationContent,
                     NotificationCreationDate = x.NotificationCreationDate,
-                    IsNewNotification = x.NotificationCreationDate >= user.LastOpenedNotificationDate
+                    IsNewNotification = x.NotificationCreationDate >= lastOpenedNotificationDate
                 }).ToList();
 
             return result;

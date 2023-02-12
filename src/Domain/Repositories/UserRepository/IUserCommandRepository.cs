@@ -1,9 +1,10 @@
 ﻿using Domain.DomainModels.Entities.UserAggregate;
+using Domain.Services.Models;
 
 namespace Domain.Repositories.UserRepository
 {
     public interface IUserCommandRepository
     {
-        public Task UpsertUserAsync(User user, CancellationToken cancellationToken);
+        public Task UpsertUserAsync(UpsertUserInput upsertInput, CancellationToken cancellationToken);
     }
 }

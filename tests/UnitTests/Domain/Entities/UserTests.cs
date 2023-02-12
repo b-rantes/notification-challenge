@@ -14,32 +14,6 @@ namespace UnitTests.Domain.Entities
             _dataFaker = new Faker();
         }
 
-        [Fact(DisplayName = "User entity TurnOnNotification method should turn notifications on")]
-        public void TurnOnNotification_Should_Turn_Notifications_On()
-        {
-            //Arrange
-            var user = GenerateValidUser(isNotificationOn: false);
-
-            //Act
-            user.TurnOnNotifications();
-
-            //Assert
-            user.CanReceiveNotification.Should().BeTrue();
-        }
-
-        [Fact(DisplayName = "User entity TurnOffNotification method should turn notifications off")]
-        public void TurnOffNotification_Should_Turn_Notifications_Off()
-        {
-            //Arrange
-            var user = GenerateValidUser(isNotificationOn: true);
-
-            //Act
-            user.TurnOffNotifications();
-
-            //Assert
-            user.CanReceiveNotification.Should().BeFalse();
-        }
-
         [Fact(DisplayName = "User entity should update LastOpenedNotificationDate when notification is open")]
         public void Should_UpdateLastOpenedNotificationDate_When_Notification_IsOpened()
         {

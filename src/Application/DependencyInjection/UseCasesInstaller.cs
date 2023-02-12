@@ -1,5 +1,6 @@
 ﻿using Application.UseCases.CreateUserNotification;
 using Application.UseCases.FetchUserNotifications;
+using Application.UseCases.UpsertUserControl;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,7 +12,8 @@ namespace Application.DependencyInjection
         {
             services
                 .AddCreateUserNotificationUseCase()
-                .AddFetchUserNotificationsUseCase();
+                .AddFetchUserNotificationsUseCase()
+                .AddUpsertUserControlUseCase();
 
             return services;
         }
