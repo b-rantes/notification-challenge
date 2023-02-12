@@ -22,9 +22,8 @@ namespace UnitTests.Domain.Entities
             var notification = new Notification(Guid.NewGuid(), _dataFaker.Random.Long(min: 1));
 
             //Assert
-            notification.NotificationCreationDate.Should().BeNull();
+            notification.NotificationCreationDate.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
             notification.NotificationContent.Should().BeNull();
-            notification.NotificationState.Should().Be(NotificationState.NotCreated);
         }
 
         [Fact(DisplayName = "Existent notification should create with parameters in constructor correctly")]
@@ -42,35 +41,6 @@ namespace UnitTests.Domain.Entities
             notification.NotificationContent.Should().Be(anyContentObject);
             notification.NotificationId.Should().Be(notificationGuid);
             notification.UserOwnerId.Should().Be(userOwnerId);
-            notification.NotificationState.Should().Be(NotificationState.Created);
-        }
-
-        [Fact(DisplayName = "CreateNotification should define NotificationCreationDate as DateTimeUtcNow and change state")]
-        public void CreateNotification_ShouldDefine_NotificationCreationDate_AndChange_State()
-        {
-            //Arrange
-            var notification = GenerateNewlyCreatedNotification();
-
-            //Act
-            notification.CreateNotification();
-
-            //Assert
-            notification.NotificationCreationDate.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
-            notification.NotificationState.Should().Be(NotificationState.Created);
-        }
-
-        [Fact(DisplayName = "CreateNotification in already created notification should throw")]
-        public void CreateNotification_ShouldThrow_WhenNotificationAlreadyCreated()
-        {
-            //Arrange
-            var existentNotification = GenerateExistentNotification(Guid.NewGuid(), _dataFaker.Random.Long(min: 1), _dataFaker.Date.Recent());
-            var newlyCreatedNotification = GenerateNewlyCreatedNotification();
-
-            //Act, Assert
-            Assert.Throws<DomainException>(() => existentNotification.CreateNotification());
-
-            newlyCreatedNotification.CreateNotification();
-            Assert.Throws<DomainException>(() => newlyCreatedNotification.CreateNotification());
         }
 
         [Fact(DisplayName = "SetNotificationContent should set NotificationContent correctly")]
@@ -85,16 +55,6 @@ namespace UnitTests.Domain.Entities
 
             //Assert
             notification.NotificationContent.Should().Be(anyContent);
-        }
-
-        [Fact(DisplayName = "Notification without CreateNotificationMethod should be NotCreated state")]
-        public void Notification_WithoutCreateNotificationMethod_ShouldBe_NotCreated_State()
-        {
-            //Arrange
-            var notification = GenerateNewlyCreatedNotification();
-
-            //Act, Assert
-            notification.NotificationState.Should().Be(NotificationState.NotCreated);
         }
 
         private Notification GenerateNewlyCreatedNotification() =>

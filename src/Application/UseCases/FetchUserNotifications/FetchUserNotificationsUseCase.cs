@@ -1,5 +1,4 @@
 ﻿using Application.Shared.Errors;
-using Application.UseCases.CreateUserNotification;
 using Application.UseCases.FetchUserNotifications.Interface;
 using Application.UseCases.FetchUserNotifications.Models;
 using Domain.Repositories.UserRepository;
@@ -49,9 +48,9 @@ namespace Application.UseCases.FetchUserNotifications
 
 
                 _logger.LogInformation("[{UseCase}] finished execution for id: {id} successfully",
-                    nameof(CreateUserNotificationUseCase), input.UserId);
+                    nameof(FetchUserNotificationsUseCase), input.UserId);
 
-                return FetchUserNotificationsUseCase.Success(result.Notifications, result.NewNotificationsCount);
+                return FetchUserNotificationsOutput.Success(result.Notifications, result.NewNotificationsCount);
             }
             catch (Exception ex)
             {

@@ -14,7 +14,7 @@ namespace Domain.DomainModels.Entities.NotificationAggregate
         {
             NotificationId = notificationId;
             UserOwnerId = userOwnerId;
-            NotificationState = NotificationState.NotCreated;
+            NotificationCreationDate = DateTime.UtcNow;
         }
 
         internal Notification(Guid notificationId, long userOwnerId, DateTime notificationCreationDate, object? notificationContent = null)
@@ -23,26 +23,14 @@ namespace Domain.DomainModels.Entities.NotificationAggregate
             UserOwnerId = userOwnerId;
             NotificationCreationDate = notificationCreationDate;
             NotificationContent = notificationContent;
-            NotificationState = NotificationState.Created;
         }
 
         public Guid NotificationId { get; set; }
         public long UserOwnerId { get; internal set; }
-        public DateTime? NotificationCreationDate { get; internal set; }
+        public DateTime NotificationCreationDate { get; internal set; }
         public object? NotificationContent { get; set; }
 
-        internal NotificationState NotificationState { get; private set; }
-
         public void SetNotificationContent(object? notificationContent) => NotificationContent = notificationContent;
-
-        internal void CreateNotification()
-        {
-            if (NotificationState is NotificationState.Created)
-                throw new DomainException("Notification already created");
-
-            NotificationState = NotificationState.Created;
-            NotificationCreationDate = DateTime.UtcNow;
-        }
 
         internal EntityValidationResult Validate()
         {

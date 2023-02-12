@@ -30,7 +30,7 @@ namespace Infrastructure.EventProducer
                 var message = new UserNotificationCreatedEventMessage
                 {
                     LastOpenedNotificationDate = user.LastOpenedNotificationDate,
-                    NotificationCreationDate = notification.NotificationCreationDate!.Value,
+                    NotificationCreationDate = notification.NotificationCreationDate,
                     NotificationId = notification.NotificationId,
                     UserOwnerId = notification.UserOwnerId,
                     NotificationContent = notification.NotificationContent

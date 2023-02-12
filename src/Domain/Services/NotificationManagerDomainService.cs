@@ -42,8 +42,6 @@ namespace Domain.Services
                 if (!user.CanReceiveNotification)
                     throw new DomainException(string.Format("User {id} cannot receive notifications", user.Id));
 
-                notification.CreateNotification();
-
                 var operationResult = await _notificationCommandRepository.SaveIdempotentNotificationAsync(notification, cancellationToken);
 
                 if (!operationResult.NotificationSaved)

@@ -35,7 +35,6 @@ namespace IntegratedTests.Infrastructure.Repositories.CommandRepositories
             var notification = GenerateNewlyCreatedNotification();
             var anyContent = new { Prop = "Value" };
             notification.SetNotificationContent(anyContent);
-            notification.CreateNotification();
 
             //Act
             var output = await _notificationCommandRepository.SaveIdempotentNotificationAsync(notification, CancellationToken.None);
@@ -46,7 +45,7 @@ namespace IntegratedTests.Infrastructure.Repositories.CommandRepositories
 
             //Assert
             result.NotificationId.Should().Be(notification.NotificationId.ToString());
-            result.NotificationCreationDate.Should().BeCloseTo(notification.NotificationCreationDate!.Value, TimeSpan.FromSeconds(1));
+            result.NotificationCreationDate.Should().BeCloseTo(notification.NotificationCreationDate, TimeSpan.FromSeconds(1));
             result.UserOwnerId.Should().Be(notification.UserOwnerId);
             output.NotificationSaved.Should().BeTrue();
         }
@@ -58,7 +57,6 @@ namespace IntegratedTests.Infrastructure.Repositories.CommandRepositories
             var notification = GenerateNewlyCreatedNotification();
             var anyContent = new { Prop = "Value" };
             notification.SetNotificationContent(anyContent);
-            notification.CreateNotification();
 
             //Act
             var output = await _notificationCommandRepository.SaveIdempotentNotificationAsync(notification, CancellationToken.None);
@@ -68,9 +66,9 @@ namespace IntegratedTests.Infrastructure.Repositories.CommandRepositories
                 .FindAsync(x => x.NotificationId == notification.NotificationId.ToString())).ToList();
 
             //Assert
-            result.FirstOrDefault().NotificationId.Should().Be(notification.NotificationId.ToString());
-            result.FirstOrDefault().NotificationCreationDate.Should().BeCloseTo(notification.NotificationCreationDate!.Value, TimeSpan.FromSeconds(1));
-            result.FirstOrDefault().UserOwnerId.Should().Be(notification.UserOwnerId);
+            result!.FirstOrDefault().NotificationId.Should().Be(notification.NotificationId.ToString());
+            result!.FirstOrDefault().NotificationCreationDate.Should().BeCloseTo(notification.NotificationCreationDate, TimeSpan.FromSeconds(1));
+            result!.FirstOrDefault().UserOwnerId.Should().Be(notification.UserOwnerId);
             output.NotificationSaved.Should().BeTrue();
             result.Count.Should().Be(1);
             idempotentBlockExpectedOutput.NotificationSaved.Should().BeFalse();
