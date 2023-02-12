@@ -2,7 +2,6 @@
 using Bogus;
 using Domain.DomainModels.Entities.NotificationAggregate;
 using Domain.Repositories.NotificationRepository;
-using Domain.Repositories.NotificationRepository.Models;
 using FluentAssertions;
 using Infrastructure.Cache.CachedNotificationView.Models;
 using Infrastructure.Cache.Interfaces;
@@ -65,16 +64,9 @@ namespace IntegratedTests.Infrastructure.Repositories.ViewRepositories
 
             // Assert
             resultFromCache.Should().BeNull();
-            result.LastUpdate.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(3));
             result.Notifications.Should().HaveCount(1);
             result.UserId.Should().Be(notification.UserOwnerId);
         }
-
-        private NotificationsViewByUserOutput GenerateNotificationsViewByUser() =>
-            _fixture
-                .Build<NotificationsViewByUserOutput>()
-                .With(x => x.UserId, _dataFaker.Random.Long(min: 1))
-                .Create();
 
         private UpdateInCacheNotificationInput GenerateNotificationsViewInCache() =>
             _fixture.Create<UpdateInCacheNotificationInput>();

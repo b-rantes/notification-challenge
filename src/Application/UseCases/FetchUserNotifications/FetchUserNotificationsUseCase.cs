@@ -12,18 +12,15 @@ namespace Application.UseCases.FetchUserNotifications
     {
         private readonly ILogger<FetchUserNotificationsUseCase> _logger;
         private readonly IValidator<FetchUserNotificationsInput> _validator;
-        private readonly IUserViewRepository _userViewRepository;
         private readonly INotificationManagerDomainService _notificationDomainService;
 
         public FetchUserNotificationsUseCase(
             ILogger<FetchUserNotificationsUseCase> logger,
             IValidator<FetchUserNotificationsInput> validator,
-            IUserViewRepository userViewRepository,
             INotificationManagerDomainService notificationDomainService)
         {
             _logger = logger;
             _validator = validator;
-            _userViewRepository = userViewRepository;
             _notificationDomainService = notificationDomainService;
         }
 

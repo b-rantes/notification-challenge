@@ -13,18 +13,15 @@ namespace Application.UseCases.UpsertUserControl
     {
         private readonly ILogger<UpsertUserControlUseCase> _logger;
         private readonly IValidator<UpsertUserControlInput> _validator;
-        private readonly IUserViewRepository _userViewRepository;
         private readonly IUserManagerDomainService _userDomainService;
 
         public UpsertUserControlUseCase(
             ILogger<UpsertUserControlUseCase> logger,
             IValidator<UpsertUserControlInput> validator,
-            IUserViewRepository userViewRepository,
             IUserManagerDomainService userDomainService)
         {
             _logger = logger;
             _validator = validator;
-            _userViewRepository = userViewRepository;
             _userDomainService = userDomainService;
         }
 

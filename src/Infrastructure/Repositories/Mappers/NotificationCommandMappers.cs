@@ -19,7 +19,8 @@ namespace Infrastructure.Repositories.Mappers
             {
                 NotificationId = notification.NotificationId.ToString(),
                 UserOwnerId = notification.UserOwnerId,
-                NotificationCreationDate = notification.NotificationCreationDate
+                NotificationCreationDate = notification.NotificationCreationDate,
+                LastUpdate = DateTime.UtcNow
             };
 
             if (BsonDocument.TryParse(JsonSerializer.Serialize(notification.NotificationContent, _options), out var notificationContent))
@@ -33,6 +34,7 @@ namespace Infrastructure.Repositories.Mappers
             return new NotificationsViewByUserOutput
             {
                 UserId = collection.First().UserOwnerId,
+                LastUpdate = collection.First().LastUpdate,
                 Notifications = collection.Select(x => new NotificationViewItem
                 {
                     NotificationContent = x.NotificationContent,
