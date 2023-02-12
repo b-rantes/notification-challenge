@@ -5,7 +5,7 @@ namespace Infrastructure.Repositories.Mappers
 {
     public static class UserViewMapper
     {
-        public static UserControlView MapUserCollectionToUserControlView(this UserViewCollection collection) =>
+        public static UserControlView MapUserCollectionToUserControlView(this UserCommandCollection collection) =>
             new UserControlView
             {
                 Id = collection.Id,

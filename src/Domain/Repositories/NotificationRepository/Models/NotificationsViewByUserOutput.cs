@@ -4,6 +4,6 @@
     {
         public List<NotificationViewItem> Notifications { get; set; } = new List<NotificationViewItem>();
         public long UserId { get; set; }
-        public DateTime LastOpenedNotificationDate { get; set; }
+        public DateTime? LastOpenedNotificationDate { get; set; }
     }
 }

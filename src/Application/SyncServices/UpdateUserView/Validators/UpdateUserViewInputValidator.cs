@@ -1,20 +1,15 @@
-﻿using Application.SyncServices.UpdateNotificationView.Models;
+﻿using Application.SyncServices.UpdateUserView.Models;
 using FluentValidation;
 
 namespace Application.SyncServices.UpdateUserView.Validators
 {
-    public class UpdateUserViewInputValidator : AbstractValidator<UpdateNotificationViewInput>
+    public class UpdateUserViewInputValidator : AbstractValidator<UpdateUserViewInput>
     {
         public UpdateUserViewInputValidator()
         {
-            RuleFor(x => x.UserOwnerId)
+            RuleFor(x => x.UserId)
                 .NotEmpty()
                 .GreaterThan(0);
-
-            RuleFor(x => x.NotificationId)
-                .NotEmpty();
-
-            RuleFor(x => x.NotificationCreationDate).NotEmpty();
         }
     }
 }

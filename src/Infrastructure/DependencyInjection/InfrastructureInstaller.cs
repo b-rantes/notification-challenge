@@ -56,12 +56,12 @@ namespace Infrastructure.DependencyInjection
                     Unique = true
                 }));
 
-                var uniqueUserIdIndex = Builders<UserViewCollection>.IndexKeys
+                var uniqueUserIdIndex = Builders<UserCommandCollection>.IndexKeys
                 .Ascending(user => user.Id);
 
-                var userCollection = mongoDatabase.GetCollection<UserViewCollection>(CollectionsConstants.UserCollectionName);
+                var userCollection = mongoDatabase.GetCollection<UserCommandCollection>(CollectionsConstants.UserCollectionName);
 
-                userCollection.Indexes.CreateOneAsync(new CreateIndexModel<UserViewCollection>(uniqueUserIdIndex, new()
+                userCollection.Indexes.CreateOneAsync(new CreateIndexModel<UserCommandCollection>(uniqueUserIdIndex, new()
                 {
                     Background = true,
                     Unique = true

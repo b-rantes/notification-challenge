@@ -1,5 +1,6 @@
 ﻿using Application.Shared.Errors;
 using Application.SyncServices.UpdateUserView.Interface;
+using Application.SyncServices.UpdateUserView.Mapper;
 using Application.SyncServices.UpdateUserView.Models;
 using FluentValidation;
 using Infrastructure.Cache.Interfaces;
@@ -36,8 +37,10 @@ namespace Application.SyncServices.UpdateUserView
 
                     return UpdateUserViewOutput.Fail(ErrorsConstants.FailFastError);
                 }
-                
-                //await _cachedUserViewRepository.UpdateUserViewAsync()
+
+                var cachedUserView = input.MapInputToCachedUserView();
+
+                await _cachedUserViewRepository.UpdateUserViewAsync(cachedUserView, cancellationToken);
 
                 return UpdateUserViewOutput.Success();
             }

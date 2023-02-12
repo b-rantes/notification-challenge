@@ -93,5 +93,6 @@ void ConfigureServices(IServiceCollection services, IConfiguration configuration
     services
         .AddDomain()
         .AddUseCases(configuration)
-        .AddInfrastructure(configuration);
+        .AddInfrastructure(configuration)
+        .AddSyncServices();
 }

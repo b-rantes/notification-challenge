@@ -1,6 +1,6 @@
 ﻿using Application.SyncServices.UpdateNotificationView.Interface;
-using Application.UseCases.CreateUserNotification.Models;
-using Application.UseCases.CreateUserNotification.Validators;
+using Application.SyncServices.UpdateNotificationView.Models;
+using Application.SyncServices.UpdateNotificationView.Validators;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics.CodeAnalysis;
@@ -14,7 +14,7 @@ namespace Application.SyncServices.UpdateNotificationView
         {
             services
                 .AddTransient<IUpdateNotificationViewService, UpdateNotificationViewService>()
-                .AddTransient<IValidator<CreateUserNotificationInput>, CreateUserNotificationInputValidator>();
+                .AddTransient<IValidator<UpdateNotificationViewInput>, UpdateNotificationViewInputValidator>();
 
             return services;
         }

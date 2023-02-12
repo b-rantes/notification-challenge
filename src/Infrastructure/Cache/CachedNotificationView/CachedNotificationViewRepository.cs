@@ -22,11 +22,6 @@ namespace Infrastructure.Cache.CachedNotificationView
             _cache = cache;
         }
 
-        public async Task GetNotificationByGuid(Guid notificationId, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<NotificationsViewByUserOutput> GetNotificationsByUserId(long userId, CancellationToken cancellationToken)
         {
             try
@@ -44,8 +39,7 @@ namespace Infrastructure.Cache.CachedNotificationView
             }
             catch (Exception)
             {
-
-                throw;
+                return null;
             }
         }
 

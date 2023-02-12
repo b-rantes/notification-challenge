@@ -1,4 +1,5 @@
 ﻿using Domain.DomainModels.Entities.NotificationAggregate;
+using Domain.Repositories.NotificationRepository.Models;
 using Infrastructure.Repositories.DTOs;
 using MongoDB.Bson;
 using System.Text.Json;
@@ -25,6 +26,20 @@ namespace Infrastructure.Repositories.Mappers
                 document.NotificationContent = notificationContent;
 
             return document;
+        }
+
+        public static NotificationsViewByUserOutput MapNotificationCollectionToViewOutput(this List<NotificationCommandCollection> collection)
+        {
+            return new NotificationsViewByUserOutput
+            {
+                UserId = collection.First().UserOwnerId,
+                Notifications = collection.Select(x => new NotificationViewItem
+                {
+                    NotificationContent = x.NotificationContent,
+                    NotificationCreationDate = x.NotificationCreationDate,
+                    NotificationId = x.NotificationId
+                }).ToList(),
+            };
         }
     }
 }

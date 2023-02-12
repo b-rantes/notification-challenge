@@ -1,24 +1,23 @@
-using Application.Shared.Errors;
 using Application.UseCases.CreateUserNotification.Interface;
+using Application.UseCases.FetchUserNotifications.Interface;
+using Application.UseCases.FetchUserNotifications.Models;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using System.Net;
-using System.Net.Sockets;
 
 namespace WebApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("notifications")]
     public class NotificationController : ControllerBase
     {
-        private readonly ILogger<NotificationController> _logger;
         private readonly ICreateUserNotificationUseCase _createUserNotificationUseCase;
-        private readonly IMongoClient _mongo;
+        private readonly IFetchUserNotificationsUseCase _fetchUserNotificationsUseCase;
 
-        public NotificationController(ICreateUserNotificationUseCase createUserNotificationUseCase)
+        public NotificationController(
+            ICreateUserNotificationUseCase createUserNotificationUseCase,
+            IFetchUserNotificationsUseCase fetchUserNotificationsUseCase)
         {
             _createUserNotificationUseCase = createUserNotificationUseCase;
+            _fetchUserNotificationsUseCase = fetchUserNotificationsUseCase;
         }
 
         [HttpGet("{id}")]
@@ -29,9 +28,29 @@ namespace WebApi.Controllers
                 var user = await _createUserNotificationUseCase.CreateUserNotificationAsync(
                     new() { UserId = id, NotificationGuid = Guid.NewGuid() },
                     cancellationToken);
-                
+
                 return Ok();
 
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetUserNotifications(long id, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var input = new FetchUserNotificationsInput { UserId = id };
+
+                var notifications = await _fetchUserNotificationsUseCase.FetchUserNotificationsAsync(input, cancellationToken);
+
+                if (notifications is null) return BadRequest("User not found");
+
+                return Ok(notifications);
             }
             catch (Exception)
             {

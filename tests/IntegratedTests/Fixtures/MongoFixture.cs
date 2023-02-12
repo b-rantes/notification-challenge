@@ -10,7 +10,7 @@ namespace IntegratedTests.Fixtures
 {
     public class MongoFixture
     {
-        private readonly IMongoCollection<UserViewCollection> _userViewCollection;
+        private readonly IMongoCollection<UserCommandCollection> _userViewCollection;
         public MongoFixture(IMongoDatabase db)
         {
 

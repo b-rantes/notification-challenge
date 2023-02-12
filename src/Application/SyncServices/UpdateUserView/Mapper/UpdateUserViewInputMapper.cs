@@ -1,6 +1,4 @@
-﻿using Application.SyncServices.UpdateNotificationView.Models;
-using Application.SyncServices.UpdateUserView.Models;
-using Infrastructure.Cache.CachedNotificationView.Models;
+﻿using Application.SyncServices.UpdateUserView.Models;
 using Infrastructure.Cache.CachedUserView.Models;
 
 namespace Application.SyncServices.UpdateUserView.Mapper

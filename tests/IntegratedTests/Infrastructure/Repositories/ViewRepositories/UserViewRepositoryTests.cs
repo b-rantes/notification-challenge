@@ -14,7 +14,7 @@ namespace IntegratedTests.Infrastructure.Repositories.ViewRepositories
 
         private readonly WebApplicationFixture _webFixture;
         private readonly IUserViewRepository _userViewRepository;
-        private readonly IMongoCollection<UserViewCollection> _userViewCollection;
+        private readonly IMongoCollection<UserCommandCollection> _userViewCollection;
 
         public UserViewRepositoryTests()
         {
@@ -23,7 +23,7 @@ namespace IntegratedTests.Infrastructure.Repositories.ViewRepositories
             _webFixture = new WebApplicationFixture();
             _userViewRepository = _webFixture.Services.GetRequiredService<IUserViewRepository>();
             _userViewCollection = _webFixture.Services.GetRequiredService<IMongoDatabase>()
-                .GetCollection<UserViewCollection>(CollectionsConstants.UserCollectionName);
+                .GetCollection<UserCommandCollection>(CollectionsConstants.UserCollectionName);
         }
 
         [Fact(DisplayName = "Existing item in repository should return correctly")]
@@ -52,8 +52,8 @@ namespace IntegratedTests.Infrastructure.Repositories.ViewRepositories
             user.Should().BeNull();
         }
 
-        private UserViewCollection GenerateValidCollectionUser(long id, bool canReceiveNotification, DateTime lastOpenedNotificationDate) =>
-            new UserViewCollection
+        private UserCommandCollection GenerateValidCollectionUser(long id, bool canReceiveNotification, DateTime lastOpenedNotificationDate) =>
+            new UserCommandCollection
             {
                 Id = id,
                 CanReceiveNotification = canReceiveNotification,

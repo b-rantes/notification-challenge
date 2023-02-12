@@ -10,15 +10,14 @@ namespace Infrastructure.Repositories.ViewRepositories
     public class UserViewRepository : IUserViewRepository
     {
         private readonly ICachedUserViewRepository _cachedUserViewRepository;
-        private readonly IMongoCollection<UserViewCollection> _collection;
+        private readonly IMongoCollection<UserCommandCollection> _collection;
 
         public UserViewRepository(ICachedUserViewRepository cachedUserViewRepository, IMongoDatabase db)
         {
-            _collection = db.GetCollection<UserViewCollection>(CollectionsConstants.UserCollectionName);
+            _collection = db.GetCollection<UserCommandCollection>(CollectionsConstants.UserCollectionName);
 
             _cachedUserViewRepository = cachedUserViewRepository;
         }
-
 
         public async Task<UserControlView> GetUserById(long id, CancellationToken cancellationToken)
         {
