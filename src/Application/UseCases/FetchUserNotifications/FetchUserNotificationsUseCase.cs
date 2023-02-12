@@ -42,7 +42,6 @@ namespace Application.UseCases.FetchUserNotifications
 
                 var result = await _notificationDomainService.FetchUserNotificationsAsync(input.UserId, cancellationToken);
 
-
                 _logger.LogInformation("[{UseCase}] finished execution for id: {id} successfully",
                     nameof(FetchUserNotificationsUseCase), input.UserId);
 

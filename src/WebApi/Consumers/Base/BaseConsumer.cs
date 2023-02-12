@@ -21,7 +21,7 @@ namespace WebApi.Consumers.Base
 
         public abstract Task ExecuteAsync(TInput message, CancellationToken cancellationToken);
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _ = Task.Run(async () =>
             {
@@ -42,6 +42,7 @@ namespace WebApi.Consumers.Base
                     }
                 }
             }, stoppingToken);
+            return Task.CompletedTask;
         }
 
         public override Task StartAsync(CancellationToken cancellationToken)
