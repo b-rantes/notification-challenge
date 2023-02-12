@@ -32,7 +32,7 @@ namespace Infrastructure.Cache.CachedNotificationView.Mapper
         public static string MapInputToCachedNotificationViewModel(
             this NotificationsViewByUserOutput oldView, UpdateInCacheNotificationInput input)
         {
-            oldView.Notifications.Add(input.CreateNewNotificationItem());
+            oldView.Notifications.Insert(0, input.CreateNewNotificationItem());
             return JsonSerializer.Serialize(new NotificationsViewByUserOutput
             {
                 LastOpenedNotificationDate = input.LastOpenedNotificationDate ?? default,

@@ -21,7 +21,7 @@ namespace Infrastructure.Repositories.ViewRepositories
         public async Task<NotificationsViewByUserOutput> GetNotificationsByUserId(long userId, CancellationToken cancellationToken)
         {
             try
-            {
+            {   
                 var cachedNotifications = await _cachedNotificationViewRepository.GetNotificationsByUserId(userId, cancellationToken);
 
                 if (cachedNotifications is not null) return cachedNotifications;

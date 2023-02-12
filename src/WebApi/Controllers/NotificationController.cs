@@ -11,37 +11,15 @@ namespace WebApi.Controllers
     [Route("notifications")]
     public class NotificationController : ControllerBase
     {
-        private readonly ICreateUserNotificationUseCase _createUserNotificationUseCase;
         private readonly IFetchUserNotificationsUseCase _fetchUserNotificationsUseCase;
         private readonly IUpsertUserControlUseCase _upsertUserControlUseCase;
 
         public NotificationController(
-            ICreateUserNotificationUseCase createUserNotificationUseCase,
             IFetchUserNotificationsUseCase fetchUserNotificationsUseCase,
             IUpsertUserControlUseCase upsertUserControlUseCase)
         {
             _upsertUserControlUseCase = upsertUserControlUseCase;
-            _createUserNotificationUseCase = createUserNotificationUseCase;
             _fetchUserNotificationsUseCase = fetchUserNotificationsUseCase;
-        }
-
-        [HttpPost("{id}")]
-        public async Task<IActionResult> CreateUserNotification(long id, CancellationToken cancellationToken)
-        {
-            try
-            {
-                var user = await _createUserNotificationUseCase.CreateUserNotificationAsync(
-                    new() { UserId = id, NotificationGuid = Guid.NewGuid() },
-                    cancellationToken);
-
-                return Ok();
-
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
         }
 
         [HttpGet("{userId}")]

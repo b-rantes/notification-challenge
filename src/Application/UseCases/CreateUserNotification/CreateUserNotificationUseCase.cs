@@ -48,6 +48,8 @@ namespace Application.UseCases.CreateUserNotification
 
                 var userControlView = await _userViewRepository.GetUserById(input.UserId, cancellationToken);
 
+                if (userControlView is null) return CreateUserNotificationOutput.Fail(ErrorsConstants.InvalidBusinessRuleError);
+
                 var user = UserBuilder.CreateUser()
                     .WithId(userControlView.Id)
                     .WithNotificationDeliveryControl(userControlView.LastOpenedNotificationDate)
