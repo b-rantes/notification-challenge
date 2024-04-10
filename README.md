@@ -22,7 +22,7 @@ In this challenge, I designed and implemented a scalable backend solution, takin
 ### Functional Requirements:
 Initially, only sending notifications to a web application will be supported. Support for new types of notifications, such as Push, SMS, and email, can be included in the future;
   - Scheduling for notification sending should be allowed at some point - the system needs to be extendable;
-  - The notification mechanism was achieved through frontend pooling using REST APIs.
+  - The notification mechanism was achieved through frontend polling using REST APIs.
   - Users who requested opt-out should no longer receive notifications;
 
 ### Non-functional Requirements:
@@ -77,8 +77,8 @@ It's recommended that only the "CanReceiveNotification" field be filled out when
 
 This route can also be used to update an existing user. For instance, to update user 3, simply insert the parameters 3 and 4, and the user will be updated with the values in the body.
 
-## Points for Evolution
-The most relevant points for evolution are:
+## Improvements
+The most relevant points for future improvements are:
 
 1. Scheduling mechanism, which uses the Hangfire library integrated with Mongo for scheduling control. Under the hood, it performs several database polls at regular intervals, which is not recommended for high volume. The functionality to delete schedules and its tight coupling with the code should be thoroughly reviewed.
 
