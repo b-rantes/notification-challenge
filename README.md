@@ -1,8 +1,8 @@
-# Tech Challenge MELI - Notification System
+# Tech Challenge - Notification System
 
 ## Introduction
-The Notification System is a backend platform that allows MELI products to send notifications about various events that occur within the system. 
-This project aims to provide a scalable and resilient solution for delivering notifications to users in a timely manner.
+The Notification System is a backend platform that allows products to send notifications about various events that occur within the system. 
+This project aims to provide a scalable and resilient solution for delivering notifications to users in a timely manner, developed as an assessment to a backend software engineering role.
 
 ## Prerequisites
 Before running the Notification System, you will need to have the following software installed:
