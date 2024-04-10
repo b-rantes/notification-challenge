@@ -1,7 +1,8 @@
 # Tech Challenge - Notification System
 
 ## Introduction
-The Notification System is a backend platform that allows products to send notifications about various events that occur within the system. 
+The Notification System is a backend platform that allows different within the company products to send notifications about various types of events that occur within their systems, e.g. a checkout process,
+status updates for order deliveries etc. 
 This project aims to provide a scalable and resilient solution for delivering notifications to users in a timely manner, developed as an assessment to a backend software engineering role.
 
 ## Prerequisites
@@ -13,6 +14,22 @@ Before running the Notification System, you will need to have the following soft
 - [Redis](https://redis.io/)
 - [MongoDB](https://www.mongodb.com/)
 - [Confluent Kafka](https://www.confluent.io/platform/kafka/)
+
+## Challenge
+The sending of notifications has become a common feature for many applications lately. They alert users with important information such as latest news, recommendations, and offers.
+In this challenge, I designed and implemented a scalable backend solution, taking into consideration development best practices, design patterns and a very careful touch regarding the domain logic.
+
+### Functional Requirements:
+Initially, only sending notifications to a web application will be supported. Support for new types of notifications, such as Push, SMS, and email, can be included in the future;
+  - Scheduling for notification sending should be allowed at some point - the system needs to be extendable;
+  - The notification mechanism was achieved through frontend pooling using REST APIs.
+  - Users who requested opt-out should no longer receive notifications;
+
+### Non-functional Requirements:
+  - Notifications should be delivered as quickly as possible, although small delays are acceptable;
+  - The solution must be scalable and resilient;
+  - There's no need to build the frontend or backend for user management, can be as simple as an ID.
+  - No need to worry about authentication/authorization;
 
 ## Architecture
 The Notification System is built with .NET 6 as the backend and leverages MongoDB as the data source for both users and notifications. Redis is used as the caching mechanism for improved performance. The communication between the different components of the system is facilitated by Confluent Kafka, which also helps with resilience and scalability.
